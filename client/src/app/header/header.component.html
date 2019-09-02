@@ -1,0 +1,16 @@
+<nav mat-tab-nav-bar mat-align-tabs="center">
+    <a mat-tab-link
+       routerLink="/redalert"
+       routerLinkActive="active"
+       (click)="activeLink = 'redalert'"
+       [active]="activeLink === 'redalert'">
+      RedAlert
+    </a>
+    <a mat-tab-link
+       routerLink="/janusz"
+       routerLinkActive="active"
+       (click)="activeLink = 'janusz'"
+       [active]="activeLink === 'janusz'">
+      Janusz
+    </a>
+  </nav>
