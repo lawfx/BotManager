@@ -89,3 +89,6 @@ typings/
 
 # My ignores
 dist/
+token.txt
+db_credentials.json
+bot.db

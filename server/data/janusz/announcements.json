@@ -1,0 +1,95 @@
+[
+{
+	"category": "breakfast",
+	"author": "lawfx",
+	"working_day": true,
+	"year": "*",
+	"month": "*",
+	"date": "*",
+	"week": "*",
+	"dayOfWeek": "mon",
+	"hour": 9,
+	"minute": 0,
+	"second": 0,
+	"messages": [ "Wakey wakey! Breakfast time!",
+				 "I'm hungry...isn't it time for breakfast already?",
+				 "Why eat breakfast alone? It's butter to have it together!",
+				 "Psst...hey you...yeah you, come here... Wanna prepare breakfast?",
+				 "Ahoy, me hearties! Get the rum! Uh... I mean... the bread and butter...",
+				 "Mmm, you smell that? Me neither... *stomach growls* :rolling_eyes:",
+				 ":fork_and_knife: :bread: :cheese: :croissant: :coffee: :tea: :pancakes: :bacon: :milk:"
+	]
+},
+{
+	"category": "standup",
+	"author": "lawfx",
+	"working_day": true,
+	"year": "*",
+	"month": "*",
+	"date": "*",
+	"week": "*",
+	"dayOfWeek": "mon-fri",
+	"hour": 11,
+	"minute": 30,
+	"second": 0,
+	"messages": [ "Gather your thoughts! Stand up time!",
+				 "Ready to let the world know of your progress?",
+				 "Between you and me... isn't it time for something?\n*hint: it involves standing up*",
+				 "Time to stand up and take your usual spot. You know what's next :speaking_head:",
+				 "My hooves are sweaty, knees weak, legs are heavy\nStop adding bugs in Jira already, code's spaghetti\nI'm nervous, but on the surface I look calm and ready\nTime to stand up, and say on what I keep on progressin'",
+				 "When one door opens, an other closes, or is it the other way around? Who cares... stand up time!",
+				 "Sometimes not speaking says more than all the words in the world. But this isn't the case now, because it's stand up time!",
+				 "Nagpaabut ako kanimo\nI guess you didn't understand that, so try to keep your stand up speech easier to follow :ear:",
+				 "S to the T to the A to the N to the D! I say STAND you say UP! STAND...!",
+				 "Stand up time!\nYou expected some unfunny, stupid joke along with that huh? Well, if you have any suggestions, let Nikos know and he'll add it to my JSON arra...eeeh I mean he'll teach it to me! :robot: :unicorn:",
+				 "By the power granted to me by...well, noone...I declare stand up time!",
+				 "https://www.youtube.com/watch?v=Tg97JiBn1kE",
+				 ":regional_indicator_s: :regional_indicator_t: :regional_indicator_a: :regional_indicator_n: :regional_indicator_d:     :regional_indicator_u: :regional_indicator_p:"
+	]
+},
+{
+	"category": "christmas",
+	"author": "lawfx",
+	"working_day": false,
+	"year": "*",
+	"month": 12,
+	"date": 25,
+	"week": "*",
+	"dayOfWeek": "*",
+	"hour": 12,
+	"minute": 0,
+	"second": 0,
+	"messages": [ ":gift: May your Christmas sparkle and your holiday overflow with gifts and love. Merry Christmas! :gift:"
+	]
+},
+{
+	"category": "new_year",
+	"author": "lawfx",
+	"working_day": false,
+	"year": "*",
+	"month": 1,
+	"date": 1,
+	"week": "*",
+	"dayOfWeek": "*",
+	"hour": 0,
+	"minute": 10,
+	"second": 0,
+	"messages": [ ":tada: Happy New Year! Wait, am I supposed to be writing more?! Sorry, I'm at a loss for words... or my creator was! :tada:"
+	]
+},
+{
+	"category": "test",
+	"author": "lawfx",
+	"working_day": true,
+	"year": "*",
+	"month": "*",
+	"date": "*",
+	"week": "*",
+	"dayOfWeek": "*",
+	"hour": "*",
+	"minute": "*",
+	"second": "0,30",
+	"messages": [ "Nagpaabut ako kanimo"
+	]
+}
+]
