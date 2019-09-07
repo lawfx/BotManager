@@ -17,3 +17,7 @@ mat-chip:hover::after,
 mat-chip:focus::after {
   opacity: 0;
 }
+
+mat-chip-list {
+  margin-left: auto;
+}

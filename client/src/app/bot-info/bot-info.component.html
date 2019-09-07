@@ -2,7 +2,7 @@
   <mat-card-header>
     <img mat-card-avatar [src]="botInfo.avatarURL" />
     <mat-card-title>{{ botInfo.username }}</mat-card-title>
-    <mat-chip-list style="margin-left:auto">
+    <mat-chip-list>
       <mat-chip
         [ngClass]="{
           'mat-chip-green': botInfo.status === 0,
