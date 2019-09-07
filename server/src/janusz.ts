@@ -15,11 +15,15 @@ log4js.configure({
 
 const logger = log4js.getLogger('Janusz');
 
-const client = new Discord.Client();
-const router = Router();
+const dataFolder = path.join(__dirname, '../data/janusz');
+const config = JSON.parse(
+  fs.readFileSync(path.join(dataFolder, 'janusz.config.json'), 'utf-8')
+);
 
 const mainChannelName = 'general';
-const dataFolder = '../data/janusz';
+
+const client = new Discord.Client();
+const router = Router();
 
 // const announcements = JSON.parse(fs.readFileSync(path.join(__dirname, dataFolder, "announcements.json"), 'utf-8'));
 // announcements.forEach((a : Announcement) => {
@@ -40,9 +44,7 @@ export function setup() {
   return new Promise((res: (value: Router) => void) => {
     setupRouter();
     setupClientEvents();
-    client.login(
-      fs.readFileSync(path.join(__dirname, dataFolder, 'token.txt'), 'utf-8')
-    );
+    client.login(fs.readFileSync(path.join(dataFolder, 'token.txt'), 'utf-8'));
 
     process.on('SIGINT', () => {
       logger.info('Caught interrupt signal');
@@ -54,7 +56,7 @@ export function setup() {
 
 function setupRouter() {
   router.get('/avatarurl', (req, res) => {
-    res.send({ avatarURL: client.user.avatarURL });
+    res.send({ author: config.author, avatarURL: client.user.avatarURL });
   });
 }
 

@@ -9,7 +9,7 @@ import { BotInfo } from '../interfaces';
 })
 export class BotInfoComponent implements OnInit {
   @Input() botName: string;
-  avatarURL = '';
+  botInfo = {} as BotInfo;
   constructor(private botinfoService: BotInfoService) {}
 
   ngOnInit() {
@@ -19,6 +19,6 @@ export class BotInfoComponent implements OnInit {
   getInfo(botName) {
     this.botinfoService
       .getInfo(botName)
-      .subscribe((res: BotInfo) => (this.avatarURL = res.avatarURL));
+      .subscribe((res: BotInfo) => (this.botInfo = res));
   }
 }

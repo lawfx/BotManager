@@ -1,11 +1,8 @@
 <mat-card>
   <mat-card-header>
-    <img mat-card-avatar [src]="avatarURL" />
-    <mat-card-title>
-      Bot info
-    </mat-card-title>
-    <mat-card-subtitle>Author: lawfx</mat-card-subtitle>
-    <mat-card-subtitle>Author: lawfx</mat-card-subtitle>
+    <img mat-card-avatar [src]="botInfo.avatarURL" />
+    <mat-card-title> {{ botName | titlecase }} info </mat-card-title>
+    <mat-card-subtitle>Author: {{ botInfo.author }}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-actions>
     <button mat-raised-button color="warn">SHUTDOWN</button>

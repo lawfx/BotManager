@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { RedalertComponent } from './redalert/redalert.component';
 import { JanuszComponent } from './janusz/janusz.component';
 
-
 const routes: Routes = [
   { path: 'redalert', component: RedalertComponent },
   { path: 'janusz', component: JanuszComponent },
@@ -14,4 +13,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
