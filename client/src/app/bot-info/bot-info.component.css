@@ -1,0 +1,19 @@
+.mat-chip-green {
+  background-color: #4caf50;
+  color: #ffffff;
+}
+
+.mat-chip-red {
+  background-color: #f44336;
+  color: #ffffff;
+}
+
+.mat-chip-amber {
+  background-color: #ffc107;
+  color: #000000;
+}
+
+mat-chip:hover::after,
+mat-chip:focus::after {
+  opacity: 0;
+}
