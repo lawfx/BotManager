@@ -3,6 +3,6 @@ export interface BotInfo {
   avatarURL: string;
   uptime: number;
   status: number;
-  statusText: string;
   username: string;
+  description: string;
 }

@@ -57,6 +57,11 @@ export function setup() {
 
 function setupRouter() {
   router.get('/info', (req, res) => {
+    if (client.user === null) {
+      res.sendStatus(500);
+      return;
+    }
+
     res.send({
       author: config.author,
       avatarURL:
@@ -65,7 +70,8 @@ function setupRouter() {
           : client.user.defaultAvatarURL,
       uptime: client.uptime,
       status: client.status,
-      username: client.user.username
+      username: client.user.username,
+      description: config.description
     });
   });
 

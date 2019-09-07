@@ -1,24 +1,27 @@
 <mat-card>
   <mat-card-header>
     <img mat-card-avatar [src]="botInfo.avatarURL" />
-    <mat-card-title>{{ botInfo.username }} </mat-card-title>
-    <mat-chip-list>
+    <mat-card-title>{{ botInfo.username }}</mat-card-title>
+    <mat-chip-list style="margin-left:auto">
       <mat-chip
         [ngClass]="{
           'mat-chip-green': botInfo.status === 0,
           'mat-chip-red': botInfo.status === 5,
           'mat-chip-amber': botInfo.status !== 0 && botInfo.status !== 5
         }"
-        >{{ botInfo.statusText }}</mat-chip
+        >{{ statusText }}</mat-chip
       >
     </mat-chip-list>
-    <mat-card-subtitle>Author: {{ botInfo.author }}</mat-card-subtitle>
+    <mat-card-subtitle>by {{ botInfo.author }}</mat-card-subtitle>
+    <mat-card-subtitle>{{ botInfo.description }}</mat-card-subtitle>
   </mat-card-header>
-  <mat-card-content></mat-card-content>
+  <mat-card-content class="text-center"
+    ><strong>Uptime:</strong> {{ uptimeReadable }}</mat-card-content
+  >
   <div class="d-flex flex-row-reverse">
-    <button (click)="restartBot()" mat-flat-button>Restart</button>
     <button (click)="shutdownBot()" mat-flat-button color="warn">
       Shutdown
     </button>
+    <button (click)="restartBot()" mat-flat-button>Restart</button>
   </div>
 </mat-card>
