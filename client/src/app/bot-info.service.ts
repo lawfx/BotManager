@@ -8,6 +8,6 @@ export class BotInfoService {
   constructor(private httpClient: HttpClient) {}
 
   getInfo(botName: string) {
-    return this.httpClient.get(`/${botName}/avatarurl`);
+    return this.httpClient.get(`/${botName}/info`);
   }
 }

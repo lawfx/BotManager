@@ -19,6 +19,7 @@ const dataFolder = path.join(__dirname, '../data/janusz');
 const config = JSON.parse(
   fs.readFileSync(path.join(dataFolder, 'janusz.config.json'), 'utf-8')
 );
+const token = fs.readFileSync(path.join(dataFolder, 'token.txt'), 'utf-8');
 
 const mainChannelName = 'general';
 
@@ -44,7 +45,7 @@ export function setup() {
   return new Promise((res: (value: Router) => void) => {
     setupRouter();
     setupClientEvents();
-    client.login(fs.readFileSync(path.join(dataFolder, 'token.txt'), 'utf-8'));
+    loginClient();
 
     process.on('SIGINT', () => {
       logger.info('Caught interrupt signal');
@@ -55,8 +56,36 @@ export function setup() {
 }
 
 function setupRouter() {
-  router.get('/avatarurl', (req, res) => {
-    res.send({ author: config.author, avatarURL: client.user.avatarURL });
+  router.get('/info', (req, res) => {
+    res.send({
+      author: config.author,
+      avatarURL:
+        client.user.avatarURL !== null
+          ? client.user.avatarURL
+          : client.user.defaultAvatarURL,
+      uptime: client.uptime,
+      status: client.status
+    });
+  });
+
+  router.put('/shutdown', (req, res) => {
+    logger.info('Shutting down client');
+    client
+      .destroy()
+      .then(() => res.sendStatus(200))
+      .catch(err => {
+        logger.error(err);
+        res.status(500).send(err);
+      });
+  });
+
+  router.put('/restart', (req, res) => {
+    logger.info('Restarting client');
+    loginClient()
+      .then(() => res.sendStatus(200))
+      .catch(err => {
+        res.status(500).send(err);
+      });
   });
 }
 
@@ -68,6 +97,18 @@ function setupClientEvents() {
   client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
     logger.info(`Logged in as ${client.user.tag}!`);
+  });
+}
+
+function loginClient() {
+  return new Promise((res, rej) => {
+    client
+      .login(token)
+      .then(() => res())
+      .catch(err => {
+        logger.error(err);
+        rej(err);
+      });
   });
 }
 
