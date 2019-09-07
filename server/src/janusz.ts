@@ -64,7 +64,8 @@ function setupRouter() {
           ? client.user.avatarURL
           : client.user.defaultAvatarURL,
       uptime: client.uptime,
-      status: client.status
+      status: client.status,
+      username: client.user.username
     });
   });
 

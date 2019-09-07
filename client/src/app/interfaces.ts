@@ -3,4 +3,5 @@ export interface BotInfo {
   avatarURL: string;
   uptime: number;
   status: number;
+  username: string;
 }

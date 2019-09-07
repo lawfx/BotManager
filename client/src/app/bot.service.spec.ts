@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { BotInfoService } from './bot-info.service';
+import { BotService } from './bot.service';
 
-describe('BotInfoService', () => {
+describe('BotService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: BotInfoService = TestBed.get(BotInfoService);
+    const service: BotService = TestBed.get(BotService);
     expect(service).toBeTruthy();
   });
 });

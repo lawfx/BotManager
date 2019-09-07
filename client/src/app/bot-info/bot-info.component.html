@@ -1,11 +1,13 @@
 <mat-card>
   <mat-card-header>
     <img mat-card-avatar [src]="botInfo.avatarURL" />
-    <mat-card-title> {{ botName | titlecase }} info </mat-card-title>
+    <mat-card-title> {{ botInfo.username }} info </mat-card-title>
     <mat-card-subtitle>Author: {{ botInfo.author }}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-actions>
-    <button mat-raised-button color="warn">SHUTDOWN</button>
-    <button mat-raised-button>RESTART</button>
+    <button (click)="shutdownBot()" mat-raised-button color="warn">
+      SHUTDOWN
+    </button>
+    <button (click)="restartBot()" mat-raised-button>RESTART</button>
   </mat-card-actions>
 </mat-card>

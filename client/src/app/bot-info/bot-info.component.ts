@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { BotInfoService } from '../bot-info.service';
+import { BotService } from '../bot.service';
 import { BotInfo } from '../interfaces';
 
 @Component({
@@ -10,15 +10,30 @@ import { BotInfo } from '../interfaces';
 export class BotInfoComponent implements OnInit {
   @Input() botName: string;
   botInfo = {} as BotInfo;
-  constructor(private botinfoService: BotInfoService) {}
+  constructor(private botService: BotService) {}
 
   ngOnInit() {
     this.getInfo(this.botName);
   }
 
+  shutdownBot() {
+    this.botService
+      .shutdown(this.botName)
+      .subscribe(res => {}, err => console.error(err));
+  }
+
+  restartBot() {
+    this.botService
+      .restart(this.botName)
+      .subscribe(res => {}, err => console.error(err));
+  }
+
   getInfo(botName) {
-    this.botinfoService
+    this.botService
       .getInfo(botName)
-      .subscribe((res: BotInfo) => (this.botInfo = res));
+      .subscribe(
+        (res: BotInfo) => (this.botInfo = res),
+        err => console.error(err)
+      );
   }
 }
