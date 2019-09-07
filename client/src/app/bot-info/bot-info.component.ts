@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { BotInfoService } from '../bot-info.service';
+import { BotInfo } from '../interfaces';
 
 @Component({
   selector: 'app-bot-info',
@@ -6,13 +8,17 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./bot-info.component.css']
 })
 export class BotInfoComponent implements OnInit {
-  @Input() bot: string;
-  avatarURL: string;
-  constructor() {}
+  @Input() botName: string;
+  avatarURL = '';
+  constructor(private botinfoService: BotInfoService) {}
 
   ngOnInit() {
-    // if (this.bot === 'janusz') {
-    //   console.log('hi');
-    // }
+    this.getInfo(this.botName);
+  }
+
+  getInfo(botName) {
+    this.botinfoService
+      .getInfo(botName)
+      .subscribe((res: BotInfo) => (this.avatarURL = res.avatarURL));
   }
 }

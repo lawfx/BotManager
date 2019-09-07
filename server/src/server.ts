@@ -1,13 +1,26 @@
 import express from 'express';
 import path from 'path';
-import { router } from './janusz';
+import { setup as JanuszSetup } from './janusz';
 
 const app = express();
+const clientPath = path.join(__dirname, '../../client/dist/client');
+const port = 9000;
 
-app.use(express.static(path.join(__dirname, '../../client/dist/client/')));
-app.use('/janusz', router);
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../../client/dist/client/index.html'));
-});
+function setup() {
+  app.use(express.static(clientPath));
 
-app.listen(9000, () => console.log('Server running in port 9000'));
+  JanuszSetup()
+    .then((router: express.Router) => app.use('/janusz', router))
+    .then(() => {
+      //TODO redalert setup
+    })
+    .then(() => {
+      app.get('/*', (req, res) => {
+        res.sendFile(path.join(clientPath, 'index.html'));
+      });
+
+      app.listen(port, () => console.log(`Server running in port ${port}`));
+    });
+}
+
+setup();

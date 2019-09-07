@@ -16,6 +16,7 @@ log4js.configure({
 const logger = log4js.getLogger('Janusz');
 
 const client = new Discord.Client();
+const router = Router();
 
 const mainChannelName = 'general';
 const dataFolder = '../data/janusz';
@@ -35,10 +36,27 @@ const dataFolder = '../data/janusz';
 //   });
 // });
 
-export const router = Router();
-router.get('/avatarurl', (req, res) => {
-  res.send(client.user.avatarURL);
-});
+export function setup() {
+  return new Promise((res: (value: Router) => void) => {
+    setupRouter();
+    setupClientEvents();
+    client.login(
+      fs.readFileSync(path.join(__dirname, dataFolder, 'token.txt'), 'utf-8')
+    );
+
+    process.on('SIGINT', () => {
+      logger.info('Caught interrupt signal');
+      client.destroy();
+    });
+    res(router);
+  });
+}
+
+function setupRouter() {
+  router.get('/avatarurl', (req, res) => {
+    res.send({ avatarURL: client.user.avatarURL });
+  });
+}
 
 function setupClientEvents() {
   client.on('error', err => {
@@ -50,15 +68,6 @@ function setupClientEvents() {
     logger.info(`Logged in as ${client.user.tag}!`);
   });
 }
-
-client.login(
-  fs.readFileSync(path.join(__dirname, dataFolder, 'token.txt'), 'utf-8')
-);
-
-process.on('SIGINT', () => {
-  logger.info('Caught interrupt signal');
-  client.destroy();
-});
 
 interface Announcement {
   category: string;
