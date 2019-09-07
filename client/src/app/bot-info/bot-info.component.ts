@@ -6,15 +6,13 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./bot-info.component.css']
 })
 export class BotInfoComponent implements OnInit {
-
   @Input() bot: string;
-  constructor() { }
+  avatarURL: string;
+  constructor() {}
 
   ngOnInit() {
-    // console.log(this.bot);
-
+    // if (this.bot === 'janusz') {
+    //   console.log('hi');
+    // }
   }
-
-
-
 }

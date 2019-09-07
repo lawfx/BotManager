@@ -7,7 +7,9 @@ import { db } from './database';
 import { Router } from 'express';
 
 log4js.configure({
-  appenders: { Janusz: { type: 'file', filename: 'janusz.log', maxLogSize: 10485760 } },
+  appenders: {
+    Janusz: { type: 'file', filename: 'janusz.log', maxLogSize: 10485760 }
+  },
   categories: { default: { appenders: ['Janusz'], level: 'debug' } }
 });
 
@@ -15,10 +17,8 @@ const logger = log4js.getLogger('Janusz');
 
 const client = new Discord.Client();
 
-const mainChannelName = "general";
-const dataFolder = "../data/janusz";
-
-
+const mainChannelName = 'general';
+const dataFolder = '../data/janusz';
 
 // const announcements = JSON.parse(fs.readFileSync(path.join(__dirname, dataFolder, "announcements.json"), 'utf-8'));
 // announcements.forEach((a : Announcement) => {
@@ -36,32 +36,31 @@ const dataFolder = "../data/janusz";
 // });
 
 export const router = Router();
-  router.get('/avatarurl', (req, res) => {
-    res.send('hi nikos');
-  });
+router.get('/avatarurl', (req, res) => {
+  res.send(client.user.avatarURL);
+});
 
-function setupClientEvents(){
-
+function setupClientEvents() {
   client.on('error', err => {
     logger.error('Whoah...Error...internet down maybe?', err);
   });
-  
+
   client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
     logger.info(`Logged in as ${client.user.tag}!`);
   });
 }
 
-
-
-client.login(fs.readFileSync(path.join(__dirname, dataFolder, "token.txt"), 'utf-8'));
+client.login(
+  fs.readFileSync(path.join(__dirname, dataFolder, 'token.txt'), 'utf-8')
+);
 
 process.on('SIGINT', () => {
-    logger.info("Caught interrupt signal");
-    client.destroy();
+  logger.info('Caught interrupt signal');
+  client.destroy();
 });
 
-interface Announcement{
+interface Announcement {
   category: string;
   author: string;
   working_day: boolean;
