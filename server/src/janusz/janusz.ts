@@ -3,8 +3,9 @@ import log4js from 'log4js';
 import schedule from 'node-schedule';
 import fs from 'fs';
 import path from 'path';
-import { db } from './database';
 import { Router } from 'express';
+
+import { db } from '../database';
 
 log4js.configure({
   appenders: {
@@ -15,16 +16,16 @@ log4js.configure({
 
 const logger = log4js.getLogger('Janusz');
 
-const dataFolder = path.join(__dirname, '../data/janusz');
 const config = JSON.parse(
-  fs.readFileSync(path.join(dataFolder, 'janusz.config.json'), 'utf-8')
+  fs.readFileSync(path.join(__dirname, 'janusz.config.json'), 'utf-8')
 );
-const token = fs.readFileSync(path.join(dataFolder, 'token.txt'), 'utf-8');
+const token = fs.readFileSync(path.join(__dirname, 'token.txt'), 'utf-8');
 
 const mainChannelName = 'general';
 
 const client = new Discord.Client();
 const router = Router();
+let modelAnnouncements;
 
 // const announcements = JSON.parse(fs.readFileSync(path.join(__dirname, dataFolder, "announcements.json"), 'utf-8'));
 // announcements.forEach((a : Announcement) => {
@@ -43,6 +44,7 @@ const router = Router();
 
 export function setup() {
   return new Promise((res: (value: Router) => void) => {
+    setupDatabaseTables();
     setupRouter();
     setupClientEvents();
     loginClient();
@@ -53,6 +55,10 @@ export function setup() {
     });
     res(router);
   });
+}
+
+function setupDatabaseTables() {
+  // modelAnnouncements = sequelize.def('Announcements', {});
 }
 
 function setupRouter() {

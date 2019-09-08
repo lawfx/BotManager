@@ -1,6 +1,6 @@
 import express from 'express';
 import path from 'path';
-import { setup as JanuszSetup } from './janusz';
+import { setup as JanuszSetup } from './janusz/janusz';
 
 const app = express();
 const clientPath = path.join(__dirname, '../../client/dist/client');
