@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Shutdown {{ data.botName }}?</h1>
+<div mat-dialog-content>
+  <p>Are you sure you want to shutdown {{ data.botName }}?</p>
+</div>
+<div mat-dialog-actions class="d-flex flex-row-reverse pb-4">
+  <button mat-flat-button color="warn" (click)="onConfirm()">
+    Yes, I'm sure
+  </button>
+  <button mat-button (click)="onCancel()">Not really</button>
+</div>

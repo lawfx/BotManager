@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { BotService } from '../bot.service';
 import { BotInfo } from '../interfaces';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ShutdownConfirmationDialogComponent } from '../shutdown-confirmation-dialog/shutdown-confirmation-dialog.component';
 
 @Component({
   selector: 'app-bot-info',
@@ -14,7 +16,10 @@ export class BotInfoComponent implements OnInit, OnDestroy {
   uptimeReadable: string;
   infoInterval: NodeJS.Timer;
 
-  constructor(private botService: BotService) {}
+  constructor(
+    private botService: BotService,
+    private shutdownDialog: MatDialog
+  ) {}
 
   ngOnInit() {
     this.infoInterval = setInterval(() => {
@@ -29,15 +34,33 @@ export class BotInfoComponent implements OnInit, OnDestroy {
   }
 
   shutdownBot() {
-    this.botService
-      .shutdown(this.botName)
-      .subscribe(res => {}, err => console.error(err));
+    this.openShutdownDialog();
+  }
+
+  openShutdownDialog() {
+    const dialogRef = this.shutdownDialog.open(
+      ShutdownConfirmationDialogComponent,
+      {
+        width: '400px',
+        data: { botName: this.botInfo.username },
+        autoFocus: false,
+        restoreFocus: false
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res === true) {
+        this.botService
+          .shutdown(this.botName)
+          .subscribe(() => {}, err => console.error(err));
+      }
+    });
   }
 
   restartBot() {
     this.botService
       .restart(this.botName)
-      .subscribe(res => {}, err => console.error(err));
+      .subscribe(() => {}, err => console.error(err));
   }
 
   getInfo(botName: string) {
