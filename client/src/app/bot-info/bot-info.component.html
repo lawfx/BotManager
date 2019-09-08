@@ -9,15 +9,16 @@
           'mat-chip-red': botInfo.status === 5,
           'mat-chip-amber': botInfo.status !== 0 && botInfo.status !== 5
         }"
-        >{{ statusText }}</mat-chip
       >
+        {{ statusText }}
+      </mat-chip>
     </mat-chip-list>
     <mat-card-subtitle>by {{ botInfo.author }}</mat-card-subtitle>
     <mat-card-subtitle>{{ botInfo.description }}</mat-card-subtitle>
   </mat-card-header>
-  <mat-card-content class="text-center"
-    ><strong>Uptime:</strong> {{ uptimeReadable }}</mat-card-content
-  >
+  <mat-card-content class="text-center">
+    <strong>Uptime:</strong> {{ uptimeReadable }}
+  </mat-card-content>
   <div class="d-flex flex-row-reverse">
     <button (click)="shutdownBot()" mat-flat-button color="warn">
       Shutdown
