@@ -6,10 +6,11 @@ import { Router } from 'express';
 export class Bot {
   private name: string;
   private client: Discord.Client;
-  router: Router;
   private config = {} as Config;
   private token: string = '';
   private basePath: string;
+
+  router: Router;
 
   constructor(name: string, basePath: string) {
     this.name = name;
