@@ -57,9 +57,9 @@ export class BotInfoComponent implements OnInit, OnDestroy {
     });
   }
 
-  restartBot() {
+  rebootBot() {
     this.botService
-      .restart(this.botName)
+      .reboot(this.botName)
       .subscribe(() => {}, err => console.error(err));
   }
 

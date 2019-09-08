@@ -17,8 +17,8 @@ export class BotService {
     });
   }
 
-  restart(botName: string) {
-    return this.httpClient.put(`/${botName}/restart`, null, {
+  reboot(botName: string) {
+    return this.httpClient.put(`/${botName}/reboot`, null, {
       responseType: 'text'
     });
   }
