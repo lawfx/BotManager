@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { Router } from 'express';
 
-export class Bot {
+export class DiscordBot {
   private name: string;
   private client: Discord.Client;
   private config = {} as Config;

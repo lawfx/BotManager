@@ -2,14 +2,40 @@ import { Sequelize } from 'sequelize';
 import fs from 'fs';
 import path from 'path';
 
-let credentials : DBCredentials = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/db_credentials.json'), 'utf-8'));
-console.log(credentials);
-export const db = new Sequelize('BotData', credentials.username, credentials.password, {
-  dialect: 'sqlite',
-  storage: 'bot.db'
-}).authenticate().then(() => console.log('Database authenticated!'));
+class Database {
+  private credentials = {} as Credentials;
 
-interface DBCredentials{
-  username: string,
-  password: string
+  sequelize: Sequelize;
+
+  constructor() {
+    this.loadCredentials();
+
+    this.sequelize = new Sequelize(
+      'BotData',
+      this.credentials.username,
+      this.credentials.password,
+      {
+        dialect: 'sqlite',
+        storage: 'bot.db'
+        // ,logging: false
+      }
+    );
+
+    this.sequelize.authenticate();
+  }
+
+  private loadCredentials() {
+    this.credentials = JSON.parse(
+      fs.readFileSync(path.join(__dirname, './db_credentials.json'), 'utf-8')
+    );
+  }
+}
+
+const sequelize = new Database().sequelize;
+
+export { sequelize };
+
+interface Credentials {
+  username: string;
+  password: string;
 }
