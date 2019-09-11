@@ -3,6 +3,7 @@ import schedule from 'node-schedule';
 
 import { DiscordBot } from '../discord-bot/discord-bot';
 import { Notification } from './models/notification';
+import { Message } from './models/message';
 
 // log4js.configure({
 //   appenders: {
@@ -17,15 +18,6 @@ export class Janusz extends DiscordBot {
   constructor() {
     super('janusz', __dirname);
     this.setupRoutes();
-    // sequelize.sync({ force: true }).then(() => {
-    //   console.log('synced');
-    //   Announcement.create({
-    //     name: 'breakfast',
-    //     author: 'lawfx'
-    //   })
-    //     .then((a: Announcement) => console.log(a.minute))
-    //     .catch((err: any) => console.error(err));
-    // });
   }
 
   private setupRoutes() {
@@ -35,9 +27,17 @@ export class Janusz extends DiscordBot {
         Notification.findAll().then((n: Notification[]) => res.send(n));
       })
       .put((req, res) => {
-        console.log(req.query);
-        Notification.create({ name: 'test' });
-        res.sendStatus(200);
+        const notification: Notification = req.body.notification;
+        const message: Message = req.body.message;
+        Notification.create(notification)
+          .then((n: Notification) => {
+            message.notificationId = n.id;
+            Message.create(message).then(() => res.sendStatus(200));
+          })
+          .catch((err: any) => {
+            console.error(err);
+            res.sendStatus(500);
+          });
       });
   }
 }

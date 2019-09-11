@@ -1,4 +1,4 @@
-export interface BotInfo {
+interface BotInfo {
   author: string;
   avatarURL: string;
   uptime: number;
@@ -7,10 +7,9 @@ export interface BotInfo {
   description: string;
 }
 
-export interface Notification {
-  id: number;
-  name: string;
-  author: string;
+interface Notification {
+  id?: number;
+  label: string;
   workingDay: boolean;
   second: string;
   minute: string;
@@ -20,3 +19,12 @@ export interface Notification {
   year: string;
   dayOfWeek: string;
 }
+
+interface Message {
+  id?: number;
+  author: string;
+  message: string;
+  notificationId?: number;
+}
+
+export { BotInfo, Notification, Message };

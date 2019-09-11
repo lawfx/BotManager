@@ -17,7 +17,7 @@ export class JanuszNotificationsComponent implements OnInit {
 
   yolo() {
     this.januszService
-      .getNotifications('janusz')
+      .getNotifications()
       .subscribe((ns: Notification[]) => (this.notifications = ns));
   }
 }

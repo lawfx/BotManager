@@ -16,8 +16,7 @@ export class JanuszComponent implements OnInit {
     const dialogRef = this.createNotificationDialog.open(
       CreateNotificationDialogComponent,
       {
-        width: '600px',
-        data: { botName: 'test' },
+        width: '800px',
         autoFocus: false,
         restoreFocus: false
       }

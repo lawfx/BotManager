@@ -5,12 +5,15 @@ import { Janusz } from './janusz/janusz';
 import config from './config.json';
 import { sequelize } from './database';
 import { Notification } from './janusz/models/notification';
+import bodyParser from 'body-parser';
 
 const app = express();
 const clientPath = path.join(__dirname, '../../client/dist/client');
 const port = config.port;
 
 function setup() {
+  app.use(bodyParser.json());
+
   const januszBot = new Janusz();
   januszBot.connect();
   app.use('/janusz', januszBot.router);

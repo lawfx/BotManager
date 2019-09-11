@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Notification } from './interfaces';
+import { Notification, Message } from './interfaces';
+import { stringify } from '@angular/compiler/src/util';
 
 @Injectable({
   providedIn: 'root'
@@ -8,16 +9,20 @@ import { Notification } from './interfaces';
 export class JanuszService {
   constructor(private httpClient: HttpClient) {}
 
-  createNotification(botName: string, notification: Notification) {
-    return this.httpClient.put(`/${botName}/notifications`, null, {
-      params: {
-        name: notification.name,
-        author: notification.author
+  createNotification(notification: Notification, message: Message) {
+    return this.httpClient.put(
+      '/janusz/notifications',
+      {
+        notification,
+        message
+      },
+      {
+        responseType: 'text'
       }
-    });
+    );
   }
 
-  getNotifications(botName: string) {
-    return this.httpClient.get(`/${botName}/notifications`);
+  getNotifications() {
+    return this.httpClient.get('/janusz/notifications');
   }
 }

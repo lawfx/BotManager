@@ -1,17 +1,122 @@
 <h1 mat-dialog-title>Create notification</h1>
 <div mat-dialog-content>
-  <form class="example-form">
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="Favorite food" value="Sushi" />
-    </mat-form-field>
-    <mat-form-field class="example-full-width">
-      <textarea matInput placeholder="Leave a comment"></textarea>
+  <form>
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Label</mat-label>
+          <mat-label *ngIf="label.value.length > 0">
+            {{ label.value.length }} / 32
+          </mat-label>
+          <input matInput #label maxlength="32" placeholder="Label" required />
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Author</mat-label>
+          <mat-label *ngIf="author.value.length > 0">
+            {{ author.value.length }} / 32
+          </mat-label>
+          <input
+            matInput
+            #author
+            maxlength="32"
+            placeholder="Author"
+            required
+          />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Year</mat-label>
+          <mat-label *ngIf="year.value.length > 0">
+            {{ year.value.length }} / 32
+          </mat-label>
+          <input matInput #year maxlength="32" placeholder="Year" />
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Month</mat-label>
+          <mat-label *ngIf="month.value.length > 0">
+            {{ month.value.length }} / 32
+          </mat-label>
+          <input matInput #month maxlength="32" placeholder="Month" />
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Date</mat-label>
+          <mat-label *ngIf="date.value.length > 0">
+            {{ date.value.length }} / 32
+          </mat-label>
+          <input matInput #date maxlength="32" placeholder="Date" />
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Hour</mat-label>
+          <mat-label *ngIf="hour.value.length > 0">
+            {{ hour.value.length }} / 32
+          </mat-label>
+          <input matInput #hour maxlength="32" placeholder="Hour" />
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Minute</mat-label>
+          <mat-label *ngIf="minute.value.length > 0">
+            {{ minute.value.length }} / 32
+          </mat-label>
+          <input matInput #minute maxlength="32" placeholder="Minute" />
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Second</mat-label>
+          <mat-label *ngIf="second.value.length > 0">
+            {{ second.value.length }} / 32
+          </mat-label>
+          <input matInput #second maxlength="32" placeholder="Second" />
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Day of week</mat-label>
+          <mat-label *ngIf="dayofweek.value.length > 0">
+            {{ dayofweek.value.length }} / 32
+          </mat-label>
+          <input matInput #dayofweek maxlength="32" placeholder="Day of week" />
+        </mat-form-field>
+      </div>
+      <div class="col align-self-center pb-3">
+        <mat-checkbox #workingday checked="true">
+          Should this fire on working days?
+        </mat-checkbox>
+      </div>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Message</mat-label>
+      <mat-label *ngIf="message.value.length > 0">
+        {{ message.value.length }} / 1024
+      </mat-label>
+      <textarea
+        matInput
+        #message
+        maxlength="1024"
+        placeholder="Write your message"
+        required
+      ></textarea>
     </mat-form-field>
   </form>
 </div>
 <div mat-dialog-actions class="d-flex flex-row-reverse pb-4">
-  <button mat-flat-button (click)="onCreate()">
+  <button mat-flat-button color="primary" (click)="onCreate()">
     Create
   </button>
-  <button mat-button color="warn" (click)="onCancel()">Cancel</button>
+  <button mat-button (click)="onCancel()">Cancel</button>
 </div>

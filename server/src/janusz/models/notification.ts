@@ -4,7 +4,7 @@ import { Message } from './message';
 
 class Notification extends Model {
   id!: number; // Note that the `null assertion` `!` is required in strict mode.
-  name!: string;
+  label!: string;
   workingDay!: boolean;
   second!: string;
   minute!: string;
@@ -17,25 +17,51 @@ class Notification extends Model {
 
 Notification.init(
   {
-    name: {
+    label: {
       type: new DataTypes.STRING(32),
       allowNull: false,
       unique: true
     },
     workingDay: {
       type: DataTypes.BOOLEAN,
+      allowNull: false,
       defaultValue: true
     },
-    second: { type: new DataTypes.STRING(32), defaultValue: 0 },
-    minute: { type: new DataTypes.STRING(32), allowNull: true },
-    hour: { type: new DataTypes.STRING(32), allowNull: true },
-    date: { type: new DataTypes.STRING(32), allowNull: true },
-    month: { type: new DataTypes.STRING(32), allowNull: true },
+    second: {
+      type: new DataTypes.STRING(32),
+      allowNull: false,
+      defaultValue: 0
+    },
+    minute: {
+      type: new DataTypes.STRING(32),
+      allowNull: false,
+      defaultValue: '*'
+    },
+    hour: {
+      type: new DataTypes.STRING(32),
+      allowNull: false,
+      defaultValue: '*'
+    },
+    date: {
+      type: new DataTypes.STRING(32),
+      allowNull: false,
+      defaultValue: '*'
+    },
+    month: {
+      type: new DataTypes.STRING(32),
+      allowNull: false,
+      defaultValue: '*'
+    },
     year: {
       type: new DataTypes.STRING(32),
-      allowNull: true
+      allowNull: false,
+      defaultValue: '*'
     },
-    dayOfWeek: { type: new DataTypes.STRING(32), allowNull: true }
+    dayOfWeek: {
+      type: new DataTypes.STRING(32),
+      allowNull: false,
+      defaultValue: '*'
+    }
   },
   {
     timestamps: false,
@@ -43,6 +69,9 @@ Notification.init(
   }
 );
 
-Notification.hasMany(Message, { onDelete: 'CASCADE' });
+Notification.hasMany(Message, {
+  onDelete: 'CASCADE',
+  foreignKey: 'notificationId'
+});
 
 export { Notification };
