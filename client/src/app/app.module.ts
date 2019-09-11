@@ -8,6 +8,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTableModule } from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,6 +20,8 @@ import { RedalertComponent } from './redalert/redalert.component';
 import { JanuszComponent } from './janusz/janusz.component';
 import { BotNavComponent } from './bot-nav/bot-nav.component';
 import { ShutdownConfirmationDialogComponent } from './shutdown-confirmation-dialog/shutdown-confirmation-dialog.component';
+import { JanuszNotificationsComponent } from './janusz-notifications/janusz-notifications.component';
+import { CreateNotificationDialogComponent } from './create-notification-dialog/create-notification-dialog.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +30,9 @@ import { ShutdownConfirmationDialogComponent } from './shutdown-confirmation-dia
     RedalertComponent,
     JanuszComponent,
     BotNavComponent,
-    ShutdownConfirmationDialogComponent
+    ShutdownConfirmationDialogComponent,
+    JanuszNotificationsComponent,
+    CreateNotificationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -36,10 +43,16 @@ import { ShutdownConfirmationDialogComponent } from './shutdown-confirmation-dia
     MatCardModule,
     MatButtonModule,
     MatChipsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTableModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [ShutdownConfirmationDialogComponent]
+  entryComponents: [
+    ShutdownConfirmationDialogComponent,
+    CreateNotificationDialogComponent
+  ]
 })
 export class AppModule {}

@@ -1,7 +1,11 @@
-<div class="container pt-4">
-  <div class="row">
-    <div class="col-md-12 col-lg-6 offset-lg-3">
-      <app-bot-info botName="janusz"></app-bot-info>
-    </div>
+<div class="container">
+  <div class="col-md-12 col-lg-6 offset-lg-3 pt-4">
+    <app-bot-info botName="janusz"></app-bot-info>
+  </div>
+  <button mat-raised-button color="primary" (click)="onCreateNotification()">
+    Create notification</button
+  ><br />
+  <div class="pt-4">
+    <app-janusz-notifications></app-janusz-notifications>
   </div>
 </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { BotService } from '../bot.service';
 import { BotInfo } from '../interfaces';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ShutdownConfirmationDialogComponent } from '../shutdown-confirmation-dialog/shutdown-confirmation-dialog.component';
 
 @Component({

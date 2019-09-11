@@ -35,7 +35,9 @@ export class Janusz extends DiscordBot {
         Notification.findAll().then((n: Notification[]) => res.send(n));
       })
       .put((req, res) => {
-        Notification.create({});
+        console.log(req.query);
+        Notification.create({ name: 'test' });
+        res.sendStatus(200);
       });
   }
 }
