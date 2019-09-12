@@ -18,6 +18,11 @@ export class Janusz extends DiscordBot {
   constructor() {
     super('janusz', __dirname);
     this.setupRoutes();
+    let rule = new schedule.RecurrenceRule();
+    rule.second = this.convertToRecurrenceSegment('30-45');
+    schedule.scheduleJob(rule, () => {
+      console.log('firing');
+    });
   }
 
   private setupRoutes() {
@@ -33,11 +38,34 @@ export class Janusz extends DiscordBot {
           .then((n: Notification) => {
             message.notificationId = n.id;
             Message.create(message).then(() => res.sendStatus(200));
+            return n;
+          })
+          .then((n: Notification) => {
+            // let rule = new schedule.RecurrenceRule();
+            // rule.minute = this.convertToRecurrenceSegment('0,15,30-45');
+            // schedule.scheduleJob(rule, () => {
+            //   console.log('firing');
+            // });
           })
           .catch((err: any) => {
             console.error(err);
             res.sendStatus(500);
           });
       });
+  }
+
+  private convertToRecurrenceSegment(value: string): schedule.Recurrence[] {
+    let segment: schedule.Recurrence[] = [];
+    const singles = value.split(',');
+    singles.forEach(s => {
+      if (s.includes('-')) {
+        const range = s.split('-');
+        segment.push(new schedule.Range(Number(range[0]), Number(range[1])));
+        return;
+      }
+      segment.push(s);
+    });
+    console.log(segment);
+    return segment;
   }
 }

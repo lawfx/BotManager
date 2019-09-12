@@ -18,8 +18,9 @@ function setup() {
   januszBot.connect();
   app.use('/janusz', januszBot.router);
 
-  sequelize.sync({ force: true }).then(() => console.log('Database synced'));
-  // Notification.create({ name: 'breakfast', author: 'lawfx' });
+  sequelize
+    .sync(/*{ force: true }*/)
+    .then(() => console.log('Database synced'));
   app.use(express.static(clientPath));
   app.get('/*', (req, res) => {
     res.sendFile(path.join(clientPath, 'index.html'));

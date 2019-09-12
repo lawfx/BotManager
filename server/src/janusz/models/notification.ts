@@ -5,8 +5,8 @@ import { Message } from './message';
 class Notification extends Model {
   id!: number; // Note that the `null assertion` `!` is required in strict mode.
   label!: string;
+  active!: boolean;
   workingDay!: boolean;
-  second!: string;
   minute!: string;
   hour!: string;
   date!: string;
@@ -22,15 +22,15 @@ Notification.init(
       allowNull: false,
       unique: true
     },
-    workingDay: {
+    active: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: true
     },
-    second: {
-      type: new DataTypes.STRING(32),
+    workingDay: {
+      type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: 0
+      defaultValue: true
     },
     minute: {
       type: new DataTypes.STRING(32),
@@ -65,7 +65,17 @@ Notification.init(
   },
   {
     timestamps: false,
-    sequelize: sequelize
+    sequelize: sequelize,
+    hooks: {
+      beforeValidate: notification => {
+        notification.year = ifEmptyThenStar(notification.year);
+        notification.month = ifEmptyThenStar(notification.month);
+        notification.date = ifEmptyThenStar(notification.date);
+        notification.hour = ifEmptyThenStar(notification.hour);
+        notification.minute = ifEmptyThenStar(notification.minute);
+        notification.dayOfWeek = ifEmptyThenStar(notification.dayOfWeek);
+      }
+    }
   }
 );
 
@@ -73,5 +83,9 @@ Notification.hasMany(Message, {
   onDelete: 'CASCADE',
   foreignKey: 'notificationId'
 });
+
+function ifEmptyThenStar(value: string): string {
+  return value.trim().length === 0 ? '*' : value.trim();
+}
 
 export { Notification };

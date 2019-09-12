@@ -1,15 +1,15 @@
 <mat-table [dataSource]="notifications" class="mat-elevation-z8">
-  <!-- Position Column -->
-  <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{ element.name }} </mat-cell>
+  <!-- Label Column -->
+  <ng-container matColumnDef="label">
+    <mat-header-cell *matHeaderCellDef> Label </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{ element.label }} </mat-cell>
   </ng-container>
 
   <!-- Name Column -->
-  <!-- <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{ element.name }} </mat-cell>
-  </ng-container> -->
+  <ng-container matColumnDef="workingDay">
+    <mat-header-cell *matHeaderCellDef> Working day </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{ element.workingDay }} </mat-cell>
+  </ng-container>
 
   <!-- Weight Column -->
   <!-- <ng-container matColumnDef="weight">

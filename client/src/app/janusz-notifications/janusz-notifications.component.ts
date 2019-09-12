@@ -8,16 +8,19 @@ import { JanuszService } from '../janusz.service';
   styleUrls: ['./janusz-notifications.component.css']
 })
 export class JanuszNotificationsComponent implements OnInit {
-  displayedColumns: string[] = ['name'];
+  displayedColumns: string[] = ['label', 'workingDay'];
   notifications: Notification[];
 
   constructor(private januszService: JanuszService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getNotifications();
+  }
 
-  yolo() {
-    this.januszService
-      .getNotifications()
-      .subscribe((ns: Notification[]) => (this.notifications = ns));
+  getNotifications() {
+    this.januszService.getNotifications().subscribe((ns: Notification[]) => {
+      this.notifications = ns;
+      console.log(this.notifications);
+    });
   }
 }

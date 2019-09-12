@@ -76,15 +76,6 @@
       </div>
       <div class="col">
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Second</mat-label>
-          <mat-label *ngIf="second.value.length > 0">
-            {{ second.value.length }} / 32
-          </mat-label>
-          <input matInput #second maxlength="32" placeholder="Second" />
-        </mat-form-field>
-      </div>
-      <div class="col">
-        <mat-form-field appearance="outline" class="full-width">
           <mat-label>Day of week</mat-label>
           <mat-label *ngIf="dayofweek.value.length > 0">
             {{ dayofweek.value.length }} / 32
@@ -94,10 +85,17 @@
       </div>
       <div class="col align-self-center pb-3">
         <mat-checkbox #workingday checked="true">
-          Should this fire on working days?
+          Should fire on working days?
+        </mat-checkbox>
+      </div>
+      <div class="col align-self-center pb-3">
+        <mat-checkbox #active checked="true">
+          Active
         </mat-checkbox>
       </div>
     </div>
+
+    <!-- <p>This notification will fire every {{ translateSchedule() }}</p> -->
 
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Message</mat-label>
@@ -115,7 +113,7 @@
   </form>
 </div>
 <div mat-dialog-actions class="d-flex flex-row-reverse pb-4">
-  <button mat-flat-button color="primary" (click)="onCreate()">
+  <button mat-flat-button #createButton color="primary" (click)="onCreate()">
     Create
   </button>
   <button mat-button (click)="onCancel()">Cancel</button>

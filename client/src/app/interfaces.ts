@@ -10,8 +10,8 @@ interface BotInfo {
 interface Notification {
   id?: number;
   label: string;
+  active: boolean;
   workingDay: boolean;
-  second: string;
   minute: string;
   hour: string;
   date: string;
