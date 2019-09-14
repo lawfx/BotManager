@@ -1,9 +1,7 @@
-import path from 'path';
-import schedule from 'node-schedule';
-
 import { DiscordBot } from '../discord-bot/discord-bot';
 import { Notification } from './models/notification';
 import { Message } from './models/message';
+import { ScheduledNotification } from './scheduled-notification';
 
 // log4js.configure({
 //   appenders: {
@@ -15,14 +13,17 @@ import { Message } from './models/message';
 // const logger = log4js.getLogger('Janusz');
 
 export class Janusz extends DiscordBot {
+  private scheduledJobs: ScheduledNotification[] = [];
+
   constructor() {
     super('janusz', __dirname);
     this.setupRoutes();
-    let rule = new schedule.RecurrenceRule();
-    rule.second = this.convertToRecurrenceSegment('30-45');
-    schedule.scheduleJob(rule, () => {
-      console.log('firing');
-    });
+    // Message.create({
+    //   author: 'nikos',
+    //   message: 'Hello from server!',
+    //   notificationId: 1
+    // });
+    this.setupNotifications();
   }
 
   private setupRoutes() {
@@ -54,18 +55,17 @@ export class Janusz extends DiscordBot {
       });
   }
 
-  private convertToRecurrenceSegment(value: string): schedule.Recurrence[] {
-    let segment: schedule.Recurrence[] = [];
-    const singles = value.split(',');
-    singles.forEach(s => {
-      if (s.includes('-')) {
-        const range = s.split('-');
-        segment.push(new schedule.Range(Number(range[0]), Number(range[1])));
-        return;
-      }
-      segment.push(s);
+  private setupNotifications() {
+    Notification.findAll().then((ns: Notification[]) => {
+      ns.forEach(n => {
+        Message.findAll({ where: { notificationId: n.id } }).then(
+          (ms: Message[]) => {
+            this.scheduledJobs.push(
+              new ScheduledNotification(n, ms.map(m => m.message))
+            );
+          }
+        );
+      });
     });
-    console.log(segment);
-    return segment;
   }
 }

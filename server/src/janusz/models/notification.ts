@@ -52,11 +52,6 @@ Notification.init(
       allowNull: false,
       defaultValue: '*'
     },
-    year: {
-      type: new DataTypes.STRING(32),
-      allowNull: false,
-      defaultValue: '*'
-    },
     dayOfWeek: {
       type: new DataTypes.STRING(32),
       allowNull: false,
@@ -68,7 +63,6 @@ Notification.init(
     sequelize: sequelize,
     hooks: {
       beforeValidate: notification => {
-        notification.year = ifEmptyThenStar(notification.year);
         notification.month = ifEmptyThenStar(notification.month);
         notification.date = ifEmptyThenStar(notification.date);
         notification.hour = ifEmptyThenStar(notification.hour);

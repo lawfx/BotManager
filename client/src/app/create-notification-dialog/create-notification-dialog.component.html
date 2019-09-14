@@ -31,15 +31,6 @@
     <div class="row">
       <div class="col">
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Year</mat-label>
-          <mat-label *ngIf="year.value.length > 0">
-            {{ year.value.length }} / 32
-          </mat-label>
-          <input matInput #year maxlength="32" placeholder="Year" />
-        </mat-form-field>
-      </div>
-      <div class="col">
-        <mat-form-field appearance="outline" class="full-width">
           <mat-label>Month</mat-label>
           <mat-label *ngIf="month.value.length > 0">
             {{ month.value.length }} / 32

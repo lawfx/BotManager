@@ -13,7 +13,6 @@ import { MatButton } from '@angular/material/button';
 export class CreateNotificationDialogComponent implements OnInit {
   @ViewChild('label', { static: false }) label: ElementRef;
   @ViewChild('author', { static: false }) author: ElementRef;
-  @ViewChild('year', { static: false }) year: ElementRef;
   @ViewChild('month', { static: false }) month: ElementRef;
   @ViewChild('date', { static: false }) date: ElementRef;
   @ViewChild('hour', { static: false }) hour: ElementRef;
@@ -42,7 +41,6 @@ export class CreateNotificationDialogComponent implements OnInit {
       label: this.label.nativeElement.value,
       active: this.active.checked,
       workingDay: this.workingDay.checked,
-      year: this.year.nativeElement.value,
       month: this.month.nativeElement.value,
       date: this.date.nativeElement.value,
       hour: this.hour.nativeElement.value,
