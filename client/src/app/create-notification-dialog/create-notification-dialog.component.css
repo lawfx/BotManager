@@ -1,3 +1,9 @@
 .full-width {
   width: 100%;
 }
+
+.custom-tooltip {
+  text-align: center;
+  font-size: small;
+  white-space: pre-line;
+}

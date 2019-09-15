@@ -5,8 +5,9 @@ import { Message } from './message';
 class Notification extends Model {
   id!: number; // Note that the `null assertion` `!` is required in strict mode.
   label!: string;
+  creator!: string;
   active!: boolean;
-  workingDay!: boolean;
+  activeOnHolidays!: boolean;
   minute!: string;
   hour!: string;
   date!: string;
@@ -22,15 +23,19 @@ Notification.init(
       allowNull: false,
       unique: true
     },
+    creator: {
+      type: new DataTypes.STRING(64),
+      allowNull: false
+    },
     active: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: true
     },
-    workingDay: {
+    activeOnHolidays: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: true
+      defaultValue: false
     },
     minute: {
       type: new DataTypes.STRING(32),

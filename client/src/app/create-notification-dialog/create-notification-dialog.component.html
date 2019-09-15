@@ -15,12 +15,12 @@
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Author</mat-label>
           <mat-label *ngIf="author.value.length > 0">
-            {{ author.value.length }} / 32
+            {{ author.value.length }} / 64
           </mat-label>
           <input
             matInput
             #author
-            maxlength="32"
+            maxlength="64"
             placeholder="Author"
             required
           />
@@ -68,20 +68,25 @@
       <div class="col">
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Day of week</mat-label>
-          <mat-label *ngIf="dayofweek.value.length > 0">
-            {{ dayofweek.value.length }} / 32
+          <mat-label *ngIf="dayOfWeek.value.length > 0">
+            {{ dayOfWeek.value.length }} / 32
           </mat-label>
-          <input matInput #dayofweek maxlength="32" placeholder="Day of week" />
+          <input matInput #dayOfWeek maxlength="32" placeholder="Day of week" />
         </mat-form-field>
       </div>
       <div class="col align-self-center pb-3">
-        <mat-checkbox #workingday checked="true">
-          Should fire on working days?
+        <mat-checkbox #active checked="checked">
+          Active
         </mat-checkbox>
       </div>
       <div class="col align-self-center pb-3">
-        <mat-checkbox #active checked="true">
-          Active
+        <mat-checkbox
+          #activeOnHolidays
+          matTooltip="Activates this notification during weekends/holidays/etc
+          (Active needs to be checked too for this to work)"
+          matTooltipClass="custom-tooltip"
+        >
+          Active on holidays
         </mat-checkbox>
       </div>
     </div>
