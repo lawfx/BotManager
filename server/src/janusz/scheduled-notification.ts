@@ -19,7 +19,7 @@ export class ScheduledNotification {
   private createJob(): schedule.Job {
     console.log(`Creating job for ${this.notification.label}`);
     return schedule.scheduleJob(
-      `${this.notification.minute} ${this.notification.hour} ${this.notification.date} ${this.notification.month} ${this.notification.dayOfWeek}`,
+      `0 ${this.notification.minute} ${this.notification.hour} ${this.notification.date} ${this.notification.month} ${this.notification.dayOfWeek}`,
       () => {
         console.log(
           this.messages[Math.floor(Math.random() * this.messages.length)]

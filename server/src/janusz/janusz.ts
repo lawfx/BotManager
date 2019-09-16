@@ -52,7 +52,22 @@ export class Janusz extends DiscordBot {
             console.error(err);
             res.sendStatus(500);
           });
-      });
+      })
+      .patch((req, res) => res.sendStatus(200))
+      .delete((req, res) => res.sendStatus(200));
+
+    this.router.route('/notifications/:id/messages').get((req, res) =>
+      Message.findAll({
+        where: { notificationId: req.params.id }
+      }).then((ms: Message[]) => {
+        res.send(ms);
+      })
+    );
+
+    this.router
+      .route('/messages/:id')
+      .patch((req, res) => {})
+      .delete((req, res) => {});
   }
 
   private setupNotifications() {

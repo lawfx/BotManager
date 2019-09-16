@@ -1,0 +1,4 @@
+mat-row.interactive:hover {
+  background-color: #3f51b522;
+  cursor: pointer;
+}

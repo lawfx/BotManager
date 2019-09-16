@@ -25,4 +25,10 @@ export class JanuszService {
   getNotifications() {
     return this.httpClient.get('/janusz/notifications');
   }
+
+  getMessages(notificationId: number) {
+    return this.httpClient.get(
+      `/janusz/notifications/${notificationId}/messages`
+    );
+  }
 }

@@ -1,28 +1,68 @@
 <mat-table [dataSource]="notifications" class="mat-elevation-z8">
-  <!-- Label Column -->
   <ng-container matColumnDef="label">
-    <mat-header-cell *matHeaderCellDef> Label </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{ element.label }} </mat-cell>
+    <mat-header-cell *matHeaderCellDef>Label</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.label }}</mat-cell>
   </ng-container>
 
-  <!-- Name Column -->
-  <ng-container matColumnDef="workingDay">
-    <mat-header-cell *matHeaderCellDef> Working day </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{ element.workingDay }} </mat-cell>
+  <ng-container matColumnDef="creator">
+    <mat-header-cell *matHeaderCellDef>Creator</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.creator }}</mat-cell>
   </ng-container>
 
-  <!-- Weight Column -->
-  <!-- <ng-container matColumnDef="weight">
-    <mat-header-cell *matHeaderCellDef> Weight </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{ element.weight }} </mat-cell>
+  <ng-container matColumnDef="active">
+    <mat-header-cell *matHeaderCellDef>
+      Active/Active on holidays
+    </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <i
+        class="material-icons"
+        [ngClass]="{
+          green500: element.active,
+          red500: !element.active
+        }"
+      >
+        lens
+      </i>
+      <i
+        class="material-icons"
+        [ngClass]="{
+          green500: element.activeOnHolidays,
+          red500: !element.activeOnHolidays
+        }"
+        >lens
+      </i>
+    </mat-cell>
   </ng-container>
 
-  <-- Symbol Column --
-  <ng-container matColumnDef="symbol">
-    <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{ element.symbol }} </mat-cell>
-  </ng-container> -->
+  <ng-container matColumnDef="dayOfWeek">
+    <mat-header-cell *matHeaderCellDef>Day of week</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.dayOfWeek }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="month">
+    <mat-header-cell *matHeaderCellDef>Month</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.month }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="date">
+    <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.date }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="hour">
+    <mat-header-cell *matHeaderCellDef>Hour</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.hour }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="minute">
+    <mat-header-cell *matHeaderCellDef>Minute</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.minute }}</mat-cell>
+  </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  <mat-row
+    class="interactive"
+    (click)="showMessages(row.id)"
+    *matRowDef="let row; columns: displayedColumns"
+  ></mat-row>
 </mat-table>

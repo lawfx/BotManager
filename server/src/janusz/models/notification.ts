@@ -12,7 +12,6 @@ class Notification extends Model {
   hour!: string;
   date!: string;
   month!: string;
-  year!: string;
   dayOfWeek!: string;
 }
 

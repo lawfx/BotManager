@@ -2,6 +2,25 @@
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 @import '~bootstrap/dist/css/bootstrap.min.css';
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
+@import '~material-design-icons\iconfont\material-icons.css';
 p {
   font-family: 'Roboto';
+}
+.material-icons.green500 {
+  color: #4caf50;
+}
+.material-icons.red500 {
+  color: #f44336;
+}
+.material-icons.md-18 {
+  font-size: 18px;
+}
+.material-icons.md-24 {
+  font-size: 24px;
+}
+.material-icons.md-36 {
+  font-size: 36px;
+}
+.material-icons.md-48 {
+  font-size: 48px;
 }
