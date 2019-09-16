@@ -5,9 +5,9 @@
     <mat-chip-list>
       <mat-chip
         [ngClass]="{
-          'mat-chip-green': botInfo.status === 0,
-          'mat-chip-red': botInfo.status === 5,
-          'mat-chip-amber': botInfo.status !== 0 && botInfo.status !== 5
+          green500: botInfo.status === 0,
+          red500: botInfo.status === 5,
+          amber500: botInfo.status !== 0 && botInfo.status !== 5
         }"
       >
         {{ statusText }}

@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -24,7 +25,7 @@ import { BotNavComponent } from './bot-nav/bot-nav.component';
 import { ShutdownConfirmationDialogComponent } from './shutdown-confirmation-dialog/shutdown-confirmation-dialog.component';
 import { JanuszNotificationsComponent } from './janusz-notifications/janusz-notifications.component';
 import { CreateNotificationDialogComponent } from './create-notification-dialog/create-notification-dialog.component';
-import { ShowMessagesDialogComponent } from './show-messages-dialog/show-messages-dialog.component';
+import { NotificationDialogComponent } from './notification-dialog/notification-dialog.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,7 @@ import { ShowMessagesDialogComponent } from './show-messages-dialog/show-message
     ShutdownConfirmationDialogComponent,
     JanuszNotificationsComponent,
     CreateNotificationDialogComponent,
-    ShowMessagesDialogComponent
+    NotificationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -52,13 +53,15 @@ import { ShowMessagesDialogComponent } from './show-messages-dialog/show-message
     MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent],
   entryComponents: [
     ShutdownConfirmationDialogComponent,
-    CreateNotificationDialogComponent
+    CreateNotificationDialogComponent,
+    NotificationDialogComponent
   ]
 })
 export class AppModule {}

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Notification, Message } from '../interfaces';
+import { Notification } from '../interfaces';
 import { JanuszService } from '../janusz.service';
+import { NotificationDialogComponent } from '../notification-dialog/notification-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-janusz-notifications',
@@ -22,7 +24,10 @@ export class JanuszNotificationsComponent implements OnInit {
   notifications: Notification[];
   notificationsInterval: NodeJS.Timer;
 
-  constructor(private januszService: JanuszService) {}
+  constructor(
+    private januszService: JanuszService,
+    private notificationDialog: MatDialog
+  ) {}
 
   ngOnInit() {
     this.notificationsInterval = setInterval(() => {
@@ -38,11 +43,23 @@ export class JanuszNotificationsComponent implements OnInit {
     });
   }
 
-  showMessages(notificationId: number) {
-    this.januszService
-      .getMessages(notificationId)
-      .subscribe((ms: Message[]) => {
-        console.log(ms);
-      });
+  openNotificationDialog(notificationId: number) {
+    const dialogRef = this.notificationDialog.open(
+      NotificationDialogComponent,
+      {
+        width: '800px',
+        data: { notificationId },
+        autoFocus: false,
+        restoreFocus: false
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res === true) {
+        // this.botService
+        //   .shutdown(this.botName)
+        //   .subscribe(() => {}, err => console.error(err));
+      }
+    });
   }
 }

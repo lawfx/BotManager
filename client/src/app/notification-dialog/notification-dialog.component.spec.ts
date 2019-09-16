@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ShowMessagesDialogComponent } from './show-messages-dialog.component';
+import { NotificationDialogComponent } from './notification-dialog.component';
 
-describe('ShowMessagesDialogComponent', () => {
-  let component: ShowMessagesDialogComponent;
-  let fixture: ComponentFixture<ShowMessagesDialogComponent>;
+describe('NotificationDialogComponent', () => {
+  let component: NotificationDialogComponent;
+  let fixture: ComponentFixture<NotificationDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ShowMessagesDialogComponent ]
+      declarations: [ NotificationDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ShowMessagesDialogComponent);
+    fixture = TestBed.createComponent(NotificationDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

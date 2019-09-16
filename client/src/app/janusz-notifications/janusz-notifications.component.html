@@ -11,26 +11,25 @@
 
   <ng-container matColumnDef="active">
     <mat-header-cell *matHeaderCellDef>
-      Active/Active on holidays
+      Active/on holidays
     </mat-header-cell>
     <mat-cell *matCellDef="let element">
-      <i
-        class="material-icons"
+      <mat-icon
         [ngClass]="{
           green500: element.active,
           red500: !element.active
         }"
       >
-        lens
-      </i>
-      <i
-        class="material-icons"
+        {{ element.active ? 'done' : 'clear' }}
+      </mat-icon>
+      <mat-icon
         [ngClass]="{
           green500: element.activeOnHolidays,
           red500: !element.activeOnHolidays
         }"
-        >lens
-      </i>
+      >
+        {{ element.activeOnHolidays ? 'done' : 'clear' }}
+      </mat-icon>
     </mat-cell>
   </ng-container>
 
@@ -62,7 +61,7 @@
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row
     class="interactive"
-    (click)="showMessages(row.id)"
+    (click)="openNotificationDialog(row.id)"
     *matRowDef="let row; columns: displayedColumns"
   ></mat-row>
 </mat-table>

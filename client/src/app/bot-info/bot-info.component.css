@@ -1,14 +1,14 @@
-.mat-chip-green {
+mat-chip.green500 {
   background-color: #4caf50;
   color: #ffffff;
 }
 
-.mat-chip-red {
+mat-chip.red500 {
   background-color: #f44336;
   color: #ffffff;
 }
 
-.mat-chip-amber {
+mat-chip.amber500 {
   background-color: #ffc107;
   color: #000000;
 }
