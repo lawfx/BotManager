@@ -1,14 +1,12 @@
-<mat-card>
+<mat-card class="mat-elevation-z4">
   <mat-card-header>
     <img mat-card-avatar [src]="botInfo.avatarURL" />
     <mat-card-title>{{ botInfo.username }}</mat-card-title>
     <mat-chip-list>
       <mat-chip
-        [ngClass]="{
-          green500: botInfo.status === 0,
-          red500: botInfo.status === 5,
-          amber500: botInfo.status !== 0 && botInfo.status !== 5
-        }"
+        [class.green500]="botInfo.status === 0"
+        [class.red500]="botInfo.status === 5"
+        [class.amber500]="botInfo.status !== 0 && botInfo.status !== 5"
       >
         {{ statusText }}
       </mat-chip>

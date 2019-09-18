@@ -1,17 +1,32 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger
+} from '@angular/animations';
 
-import { Notification } from '../interfaces';
+import { Notification, Message } from '../interfaces';
 import { JanuszService } from '../janusz.service';
-import { NotificationDialogComponent } from '../notification-dialog/notification-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-janusz-notifications',
   templateUrl: './janusz-notifications.component.html',
-  styleUrls: ['./janusz-notifications.component.css']
+  styleUrls: ['./janusz-notifications.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition(
+        'expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      )
+    ])
+  ]
 })
 export class JanuszNotificationsComponent implements OnInit {
-  displayedColumns: string[] = [
+  columnsToDisplay: string[] = [
     'label',
     'creator',
     'active',
@@ -19,47 +34,63 @@ export class JanuszNotificationsComponent implements OnInit {
     'month',
     'date',
     'hour',
-    'minute'
+    'minute',
+    'actions'
   ];
   notifications: Notification[];
+  expandedElement: Notification | null;
   notificationsInterval: NodeJS.Timer;
 
-  constructor(
-    private januszService: JanuszService,
-    private notificationDialog: MatDialog
-  ) {}
+  displayedColumns: string[] = ['author', 'message', 'actions'];
+  messages: Message[] = [];
+
+  constructor(private januszService: JanuszService) {}
 
   ngOnInit() {
-    this.notificationsInterval = setInterval(() => {
-      this.getNotifications();
-    }, 15000);
+    // this.notificationsInterval = setInterval(() => {
+    //   this.getNotifications();
+    // }, 15000);
     this.getNotifications();
   }
 
   getNotifications() {
     this.januszService.getNotifications().subscribe((ns: Notification[]) => {
       this.notifications = ns;
-      console.log(this.notifications);
     });
   }
 
-  openNotificationDialog(notificationId: number) {
-    const dialogRef = this.notificationDialog.open(
-      NotificationDialogComponent,
-      {
-        width: '800px',
-        data: { notificationId },
-        autoFocus: false,
-        restoreFocus: false
-      }
-    );
+  onExpandRow(id: number) {
+    this.getMessages(id);
+  }
 
-    dialogRef.afterClosed().subscribe(res => {
-      if (res === true) {
-        // this.botService
-        //   .shutdown(this.botName)
-        //   .subscribe(() => {}, err => console.error(err));
-      }
+  getMessages(notificationId: number) {
+    this.januszService
+      .getMessages(notificationId)
+      .subscribe((ms: Message[]) => {
+        this.messages = ms;
+      });
+  }
+
+  onEditNotification(notificationId: number, event: Event) {
+    console.log(notificationId);
+    event.stopPropagation();
+  }
+
+  onDeleteNotification(notificationId: number, event: Event) {
+    event.stopPropagation();
+    console.log(notificationId);
+    this.januszService.deleteNotification(notificationId).subscribe(() => {
+      this.getNotifications();
+    });
+  }
+
+  onEditMessage(messageId: number) {
+    console.log(messageId);
+  }
+
+  onDeleteMessage(messageId: number) {
+    this.januszService.deleteMessage(messageId).subscribe(() => {
+      this.getNotifications();
     });
   }
 }

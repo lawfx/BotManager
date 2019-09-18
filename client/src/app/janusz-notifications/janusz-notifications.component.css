@@ -1,4 +1,44 @@
-mat-row.interactive:hover {
-  background-color: #3f51b522;
+table {
+  width: 100%;
+}
+
+tr.example-detail-row {
+  height: 0;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: #3f51b522;
   cursor: pointer;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+.example-element-detail {
+  overflow: hidden;
+}
+
+mat-header-cell.width200,
+mat-cell.width200 {
+  flex: 0 0 200px;
+}
+
+th.width200,
+td.width200 {
+  width: 200px;
+}
+
+mat-header-cell.width100,
+mat-cell.width100 {
+  flex: 0 0 100px;
+}
+
+th.width100,
+td.width100 {
+  width: 100px;
 }

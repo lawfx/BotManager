@@ -31,4 +31,16 @@ export class JanuszService {
       `/janusz/notifications/${notificationId}/messages`
     );
   }
+
+  deleteNotification(notificationId: number) {
+    return this.httpClient.delete(`/janusz/notifications/${notificationId}`, {
+      responseType: 'text'
+    });
+  }
+
+  deleteMessage(messageId: number) {
+    return this.httpClient.delete(`/janusz/messages/${messageId}`, {
+      responseType: 'text'
+    });
+  }
 }

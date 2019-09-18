@@ -52,9 +52,21 @@ export class Janusz extends DiscordBot {
             console.error(err);
             res.sendStatus(500);
           });
-      })
-      .patch((req, res) => res.sendStatus(200))
-      .delete((req, res) => res.sendStatus(200));
+      });
+
+    this.router
+      .route('/notifications/:id')
+      .get((req, res) => {})
+      .patch((req, res) => {})
+      .delete((req, res) => {
+        console.log(`Deleting notification ${req.params.id}`);
+        Notification.destroy({ where: { id: req.params.id } })
+          .then(() => res.sendStatus(200))
+          .catch((err: any) => {
+            console.error(err);
+            res.sendStatus(500);
+          });
+      });
 
     this.router.route('/notifications/:id/messages').get((req, res) =>
       Message.findAll({
@@ -67,7 +79,15 @@ export class Janusz extends DiscordBot {
     this.router
       .route('/messages/:id')
       .patch((req, res) => {})
-      .delete((req, res) => {});
+      .delete((req, res) => {
+        console.log(`Deleting message ${req.params.id}`);
+        Message.destroy({ where: { id: req.params.id } })
+          .then(() => res.sendStatus(200))
+          .catch((err: any) => {
+            console.error(err);
+            res.sendStatus(500);
+          });
+      });
   }
 
   private setupNotifications() {

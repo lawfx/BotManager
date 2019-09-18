@@ -25,6 +25,7 @@ export class JanuszComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(res => {
       console.log(res);
+      //TODO send refresh to janusz-notifications-component
     });
   }
 }
