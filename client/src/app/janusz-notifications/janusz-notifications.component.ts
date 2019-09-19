@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   animate,
   state,
@@ -10,6 +10,9 @@ import {
 import { Notification, Message } from '../interfaces';
 import { JanuszService } from '../janusz.service';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+
 import { JanuszNotificationDialogComponent } from '../janusz-notification-dialog/janusz-notification-dialog.component';
 import { JanuszMessageDialogComponent } from '../janusz-message-dialog/janusz-message-dialog.component';
 
@@ -29,6 +32,8 @@ import { JanuszMessageDialogComponent } from '../janusz-message-dialog/janusz-me
   ]
 })
 export class JanuszNotificationsComponent implements OnInit {
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+
   notificationColumns: string[] = [
     'label',
     'creator',
@@ -40,7 +45,7 @@ export class JanuszNotificationsComponent implements OnInit {
     'minute',
     'actions'
   ];
-  notifications: Notification[];
+  notifications;
   expandedNotification: Notification | null;
 
   messageColumns: string[] = ['author', 'message', 'actions'];
@@ -64,7 +69,8 @@ export class JanuszNotificationsComponent implements OnInit {
 
   getNotifications() {
     this.januszService.getNotifications().subscribe((ns: Notification[]) => {
-      this.notifications = ns;
+      this.notifications = new MatTableDataSource<Notification>(ns);
+      this.notifications.paginator = this.paginator;
     });
   }
 
@@ -81,6 +87,7 @@ export class JanuszNotificationsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
+        console.log(45345);
         this.getNotifications();
       }
     });
