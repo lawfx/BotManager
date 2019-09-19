@@ -74,6 +74,7 @@
         mat-icon-button
         color="primary"
         aria-label="Edit notification"
+        matTooltip="Edit notification"
         (click)="onEditNotification(element.id)"
       >
         <mat-icon>edit</mat-icon>
@@ -82,6 +83,7 @@
         mat-icon-button
         color="warn"
         aria-label="Delete notification"
+        matTooltip="Delete notification"
         (click)="onDeleteNotification(element.id, $event)"
       >
         <mat-icon>delete</mat-icon>
@@ -110,8 +112,8 @@
               Edit notification
             </button>
           </div>
-          <div class="col order-last">
-            <button mat-raised-button color="primary" (click)="onAddMessage()">
+          <div class="col d-flex flex-row-reverse">
+            <button mat-raised-button color="accent" (click)="onAddMessage()">
               Add message
             </button>
           </div>
@@ -149,6 +151,7 @@
                     mat-icon-button
                     color="primary"
                     aria-label="Edit message"
+                    matTooltip="Edit message"
                     (click)="onEditMessage(element.id)"
                   >
                     <mat-icon>edit</mat-icon>
@@ -157,6 +160,7 @@
                     mat-icon-button
                     color="warn"
                     aria-label="Delete message"
+                    matTooltip="Delete message"
                     (click)="onDeleteMessage(element.id)"
                   >
                     <mat-icon>delete</mat-icon>

@@ -59,6 +59,7 @@ export class Janusz extends DiscordBot {
       .get((req, res) => {})
       .patch((req, res) => {})
       .delete((req, res) => {
+        //TODO stop scheduled notification
         console.log(`Deleting notification ${req.params.id}`);
         Notification.destroy({ where: { id: req.params.id } })
           .then(() => res.sendStatus(200))
@@ -93,13 +94,7 @@ export class Janusz extends DiscordBot {
   private setupNotifications() {
     Notification.findAll().then((ns: Notification[]) => {
       ns.forEach(n => {
-        Message.findAll({ where: { notificationId: n.id } }).then(
-          (ms: Message[]) => {
-            this.scheduledJobs.push(
-              new ScheduledNotification(n, ms.map(m => m.message))
-            );
-          }
-        );
+        this.scheduledJobs.push(new ScheduledNotification(n));
       });
     });
   }

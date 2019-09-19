@@ -24,7 +24,7 @@ import { JanuszComponent } from './janusz/janusz.component';
 import { BotNavComponent } from './bot-nav/bot-nav.component';
 import { ShutdownConfirmationDialogComponent } from './shutdown-confirmation-dialog/shutdown-confirmation-dialog.component';
 import { JanuszNotificationsComponent } from './janusz-notifications/janusz-notifications.component';
-import { CreateNotificationDialogComponent } from './create-notification-dialog/create-notification-dialog.component';
+import { NotificationDialogComponent } from './notification-dialog/notification-dialog.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +35,7 @@ import { CreateNotificationDialogComponent } from './create-notification-dialog/
     BotNavComponent,
     ShutdownConfirmationDialogComponent,
     JanuszNotificationsComponent,
-    CreateNotificationDialogComponent
+    NotificationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +58,7 @@ import { CreateNotificationDialogComponent } from './create-notification-dialog/
   bootstrap: [AppComponent],
   entryComponents: [
     ShutdownConfirmationDialogComponent,
-    CreateNotificationDialogComponent
+    NotificationDialogComponent
   ]
 })
 export class AppModule {}
