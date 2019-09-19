@@ -23,7 +23,7 @@ Notification.init(
       unique: true
     },
     creator: {
-      type: new DataTypes.STRING(64),
+      type: new DataTypes.STRING(32),
       allowNull: false
     },
     active: {

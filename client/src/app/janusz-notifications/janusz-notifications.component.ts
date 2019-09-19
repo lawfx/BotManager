@@ -11,6 +11,7 @@ import { Notification, Message } from '../interfaces';
 import { JanuszService } from '../janusz.service';
 import { MatDialog } from '@angular/material/dialog';
 import { JanuszNotificationDialogComponent } from '../janusz-notification-dialog/janusz-notification-dialog.component';
+import { JanuszMessageDialogComponent } from '../janusz-message-dialog/janusz-message-dialog.component';
 
 @Component({
   selector: 'app-janusz-notifications',
@@ -28,7 +29,7 @@ import { JanuszNotificationDialogComponent } from '../janusz-notification-dialog
   ]
 })
 export class JanuszNotificationsComponent implements OnInit {
-  columnsToDisplay: string[] = [
+  notificationColumns: string[] = [
     'label',
     'creator',
     'active',
@@ -40,23 +41,26 @@ export class JanuszNotificationsComponent implements OnInit {
     'actions'
   ];
   notifications: Notification[];
-  expandedElement: Notification | null;
-  notificationsInterval: NodeJS.Timer;
+  expandedNotification: Notification | null;
 
-  displayedColumns: string[] = ['author', 'message', 'actions'];
+  messageColumns: string[] = ['author', 'message', 'actions'];
   messages: Message[] = [];
 
   constructor(
     private januszService: JanuszService,
-    private januszNotificationDialog: MatDialog
+    private januszNotificationDialog: MatDialog,
+    private januszMessageDialog: MatDialog
   ) {}
 
   ngOnInit() {
-    // this.notificationsInterval = setInterval(() => {
-    //   this.getNotifications();
-    // }, 15000);
     this.getNotifications();
   }
+
+  onExpandRow(id: number) {
+    this.getMessages(id);
+  }
+
+  /** Notifications */
 
   getNotifications() {
     this.januszService.getNotifications().subscribe((ns: Notification[]) => {
@@ -64,16 +68,22 @@ export class JanuszNotificationsComponent implements OnInit {
     });
   }
 
-  onExpandRow(id: number) {
-    this.getMessages(id);
-  }
+  onCreateNotification() {
+    const dialogRef = this.januszNotificationDialog.open(
+      JanuszNotificationDialogComponent,
+      {
+        width: '800px',
+        autoFocus: false,
+        restoreFocus: false,
+        data: { isCreating: true }
+      }
+    );
 
-  getMessages(notificationId: number) {
-    this.januszService
-      .getMessages(notificationId)
-      .subscribe((ms: Message[]) => {
-        this.messages = ms;
-      });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.getNotifications();
+      }
+    });
   }
 
   onEditNotification(notification: Notification, event: Event) {
@@ -102,13 +112,55 @@ export class JanuszNotificationsComponent implements OnInit {
     });
   }
 
-  onEditMessage(messageId: number) {
-    console.log(messageId);
+  /** Messages */
+
+  getMessages(notificationId: number) {
+    this.januszService
+      .getMessages(notificationId)
+      .subscribe((ms: Message[]) => {
+        this.messages = ms;
+      });
+  }
+
+  onAddMessage() {
+    const dialogRef = this.januszMessageDialog.open(
+      JanuszMessageDialogComponent,
+      {
+        width: '600px',
+        autoFocus: false,
+        restoreFocus: false,
+        data: { isAdding: true, notificationId: this.expandedNotification.id }
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res && this.expandedNotification.id !== undefined) {
+        this.getMessages(this.expandedNotification.id);
+      }
+    });
+  }
+
+  onEditMessage(message: Message) {
+    const dialogRef = this.januszMessageDialog.open(
+      JanuszMessageDialogComponent,
+      {
+        width: '600px',
+        autoFocus: false,
+        restoreFocus: false,
+        data: { isAdding: false, message }
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res && this.expandedNotification.id !== undefined) {
+        this.getMessages(this.expandedNotification.id);
+      }
+    });
   }
 
   onDeleteMessage(messageId: number) {
     this.januszService.deleteMessage(messageId).subscribe(() => {
-      this.getNotifications();
+      this.getMessages(this.expandedNotification.id);
     });
   }
 }

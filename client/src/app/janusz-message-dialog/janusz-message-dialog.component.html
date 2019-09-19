@@ -1,0 +1,54 @@
+<h1 mat-dialog-title>{{ data.isAdding ? 'Add' : 'Edit' }} message</h1>
+<div mat-dialog-content>
+  <form>
+    <mat-form-field appearance="outline">
+      <mat-label>Author</mat-label>
+      <mat-label *ngIf="author.value.length > 0">
+        {{ author.value.length }} / 32
+      </mat-label>
+      <input
+        matInput
+        #author
+        maxlength="32"
+        placeholder="Author"
+        required
+        [disabled]="!data.isAdding"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Message</mat-label>
+      <mat-label *ngIf="message.value.length > 0">
+        {{ message.value.length }} / 1024
+      </mat-label>
+      <textarea
+        matInput
+        #message
+        maxlength="1024"
+        placeholder="Write your message"
+        required
+      ></textarea>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions class="d-flex flex-row-reverse pb-4">
+  <button
+    *ngIf="data.isAdding"
+    mat-flat-button
+    #addButton
+    color="primary"
+    (click)="onAdd()"
+  >
+    Create
+  </button>
+  <button
+    *ngIf="!data.isAdding"
+    mat-flat-button
+    #editButton
+    color="primary"
+    (click)="onEdit()"
+  >
+    Edit
+  </button>
+  <button mat-button (click)="onCancel()">Cancel</button>
+</div>

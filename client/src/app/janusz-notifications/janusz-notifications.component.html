@@ -1,3 +1,11 @@
+<button
+  mat-raised-button
+  class="mb-4"
+  color="primary"
+  (click)="onCreateNotification()"
+>
+  Create notification
+</button>
 <table
   mat-table
   [dataSource]="notifications"
@@ -92,15 +100,17 @@
   </ng-container>
 
   <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-  <ng-container matColumnDef="expandedDetail">
+  <ng-container matColumnDef="expandedNotificationDetail">
     <td
       mat-cell
       *matCellDef="let element"
-      [attr.colspan]="columnsToDisplay.length"
+      [attr.colspan]="notificationColumns.length"
     >
       <div
-        class="example-element-detail"
-        [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'"
+        class="notification-element-detail"
+        [@detailExpand]="
+          element == expandedNotification ? 'expanded' : 'collapsed'
+        "
       >
         <button mat-raised-button color="accent" (click)="onAddMessage()">
           Add message
@@ -139,7 +149,7 @@
                     color="primary"
                     aria-label="Edit message"
                     matTooltip="Edit message"
-                    (click)="onEditMessage(element.id)"
+                    (click)="onEditMessage(element)"
                   >
                     <mat-icon>edit</mat-icon>
                   </button>
@@ -156,11 +166,9 @@
               </ng-container>
 
               <mat-header-row
-                *matHeaderRowDef="displayedColumns"
+                *matHeaderRowDef="messageColumns"
               ></mat-header-row>
-              <mat-row
-                *matRowDef="let row; columns: displayedColumns"
-              ></mat-row>
+              <mat-row *matRowDef="let row; columns: messageColumns"></mat-row>
             </mat-table>
           </div>
         </div>
@@ -168,18 +176,20 @@
     </td>
   </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  <tr mat-header-row *matHeaderRowDef="notificationColumns"></tr>
   <tr
     mat-row
-    *matRowDef="let element; columns: columnsToDisplay"
-    class="example-element-row"
-    [class.example-expanded-row]="expandedElement === element"
-    (click)="expandedElement = expandedElement === element ? null : element"
+    *matRowDef="let element; columns: notificationColumns"
+    class="notification-element-row"
+    [class.example-expanded-row]="expandedNotification === element"
+    (click)="
+      expandedNotification = expandedNotification === element ? null : element
+    "
     (click)="onExpandRow(element.id)"
   ></tr>
   <tr
     mat-row
-    *matRowDef="let row; columns: ['expandedDetail']"
-    class="example-detail-row"
+    *matRowDef="let row; columns: ['expandedNotificationDetail']"
+    class="notification-detail-row"
   ></tr>
 </table>

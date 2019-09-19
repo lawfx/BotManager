@@ -31,3 +31,9 @@ export interface JanuszNotificationDialogData {
   isCreating: boolean;
   notification?: Notification;
 }
+
+export interface JanuszMessageDialogData {
+  isAdding: boolean;
+  message?: Message;
+  notificationId?: number;
+}

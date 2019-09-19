@@ -22,12 +22,12 @@
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Author</mat-label>
           <mat-label *ngIf="author.value.length > 0">
-            {{ author.value.length }} / 64
+            {{ author.value.length }} / 32
           </mat-label>
           <input
             matInput
             #author
-            maxlength="64"
+            maxlength="32"
             placeholder="Author"
             required
             [disabled]="!data.isCreating"

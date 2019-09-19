@@ -11,7 +11,7 @@ class Message extends Model {
 Message.init(
   {
     author: {
-      type: new DataTypes.STRING(64),
+      type: new DataTypes.STRING(32),
       allowNull: false
     },
     message: {

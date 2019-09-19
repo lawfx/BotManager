@@ -16,25 +16,16 @@ export class JanuszService {
   createNotification(notification: Notification, message: Message) {
     return this.httpClient.put(
       '/janusz/notifications',
-      {
-        notification,
-        message
-      },
-      {
-        responseType: 'text'
-      }
+      { notification, message },
+      { responseType: 'text' }
     );
   }
 
   updateNotification(notification: Notification) {
     return this.httpClient.patch(
       `/janusz/notifications/${notification.id}`,
-      {
-        notification
-      },
-      {
-        responseType: 'text'
-      }
+      { notification },
+      { responseType: 'text' }
     );
   }
 
@@ -47,6 +38,22 @@ export class JanuszService {
   getMessages(notificationId: number) {
     return this.httpClient.get(
       `/janusz/notifications/${notificationId}/messages`
+    );
+  }
+
+  addMessage(message: Message) {
+    return this.httpClient.put(
+      `/janusz/messages`,
+      { message },
+      { responseType: 'text' }
+    );
+  }
+
+  editMessage(message: Message) {
+    return this.httpClient.patch(
+      `/janusz/messages/${message.id}`,
+      { message },
+      { responseType: 'text' }
     );
   }
 

@@ -4,7 +4,6 @@ import {
   AfterViewInit,
   ViewChild,
   ElementRef,
-  ViewEncapsulation,
   Inject
 } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -20,9 +19,7 @@ import { MatButton } from '@angular/material/button';
 @Component({
   selector: 'app-janusz-notification-dialog',
   templateUrl: './janusz-notification-dialog.component.html',
-  styleUrls: ['./janusz-notification-dialog.component.css'],
-  // Need to remove view encapsulation so that the custom tooltip style will not be scoped to this component's view.
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./janusz-notification-dialog.component.css']
 })
 export class JanuszNotificationDialogComponent
   implements OnInit, AfterViewInit {

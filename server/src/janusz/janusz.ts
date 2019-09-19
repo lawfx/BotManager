@@ -56,7 +56,6 @@ export class Janusz extends DiscordBot {
 
     this.router
       .route('/notifications/:id')
-      .get((req, res) => {})
       .patch((req, res) => {
         const notification: Notification = req.body.notification;
         Notification.update(
@@ -70,7 +69,7 @@ export class Janusz extends DiscordBot {
             activeOnHolidays: notification.activeOnHolidays
           },
           {
-            where: { id: notification.id }
+            where: { id: req.params.id }
           }
         )
           .then(() => res.sendStatus(200))
@@ -98,9 +97,30 @@ export class Janusz extends DiscordBot {
       })
     );
 
+    this.router.route('/messages').put((req, res) => {
+      const message: Message = req.body.message;
+      Message.create(message)
+        .then(() => res.sendStatus(200))
+        .catch((err: any) => {
+          console.error(err);
+          res.sendStatus(500);
+        });
+    });
+
     this.router
       .route('/messages/:id')
-      .patch((req, res) => {})
+      .patch((req, res) => {
+        const message: Message = req.body.message;
+        Message.update(
+          { message: message.message },
+          { where: { id: req.params.id } }
+        )
+          .then(() => res.sendStatus(200))
+          .catch((err: any) => {
+            console.error(err);
+            res.sendStatus(500);
+          });
+      })
       .delete((req, res) => {
         console.log(`Deleting message ${req.params.id}`);
         Message.destroy({ where: { id: req.params.id } })
