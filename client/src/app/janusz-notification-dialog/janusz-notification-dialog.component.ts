@@ -1,12 +1,18 @@
 import {
   Component,
   OnInit,
+  AfterViewInit,
   ViewChild,
   ElementRef,
-  ViewEncapsulation
+  ViewEncapsulation,
+  Inject
 } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import { Notification, Message } from '../interfaces';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  Notification,
+  Message,
+  JanuszNotificationDialogData
+} from '../interfaces';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { JanuszService } from '../janusz.service';
 import { MatButton } from '@angular/material/button';
@@ -18,7 +24,8 @@ import { MatButton } from '@angular/material/button';
   // Need to remove view encapsulation so that the custom tooltip style will not be scoped to this component's view.
   encapsulation: ViewEncapsulation.None
 })
-export class JanuszNotificationDialogComponent implements OnInit {
+export class JanuszNotificationDialogComponent
+  implements OnInit, AfterViewInit {
   @ViewChild('label', { static: false }) label: ElementRef;
   @ViewChild('author', { static: false }) author: ElementRef;
   @ViewChild('month', { static: false }) month: ElementRef;
@@ -31,13 +38,31 @@ export class JanuszNotificationDialogComponent implements OnInit {
   @ViewChild('dayOfWeek', { static: false }) dayOfWeek: ElementRef;
   @ViewChild('message', { static: false }) message: ElementRef;
   @ViewChild('createButton', { static: false }) createButton: MatButton;
+  @ViewChild('editButton', { static: false }) editButton: MatButton;
 
   constructor(
     private januszService: JanuszService,
-    private dialogRef: MatDialogRef<JanuszNotificationDialogComponent>
+    private dialogRef: MatDialogRef<JanuszNotificationDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: JanuszNotificationDialogData
   ) {}
 
   ngOnInit() {}
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      if (!this.data.isCreating) {
+        this.label.nativeElement.value = this.data.notification.label;
+        this.author.nativeElement.value = this.data.notification.creator;
+        this.month.nativeElement.value = this.data.notification.month;
+        this.date.nativeElement.value = this.data.notification.date;
+        this.hour.nativeElement.value = this.data.notification.hour;
+        this.minute.nativeElement.value = this.data.notification.minute;
+        this.dayOfWeek.nativeElement.value = this.data.notification.dayOfWeek;
+        this.active.checked = this.data.notification.active;
+        this.activeOnHolidays.checked = this.data.notification.activeOnHolidays;
+      }
+    });
+  }
 
   onCancel() {
     this.dialogRef.close(false);
@@ -67,6 +92,27 @@ export class JanuszNotificationDialogComponent implements OnInit {
       .subscribe(res => {
         this.dialogRef.close(true);
       });
+  }
+
+  onEdit() {
+    this.editButton.disabled = true;
+
+    const notification: Notification = {
+      id: this.data.notification.id,
+      label: this.label.nativeElement.value,
+      creator: this.author.nativeElement.value,
+      active: this.active.checked,
+      activeOnHolidays: this.activeOnHolidays.checked,
+      month: this.month.nativeElement.value,
+      date: this.date.nativeElement.value,
+      hour: this.hour.nativeElement.value,
+      minute: this.minute.nativeElement.value,
+      dayOfWeek: this.dayOfWeek.nativeElement.value
+    };
+
+    this.januszService.updateNotification(notification).subscribe(res => {
+      this.dialogRef.close(true);
+    });
   }
 
   // translateSchedule() {

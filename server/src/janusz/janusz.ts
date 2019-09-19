@@ -57,7 +57,28 @@ export class Janusz extends DiscordBot {
     this.router
       .route('/notifications/:id')
       .get((req, res) => {})
-      .patch((req, res) => {})
+      .patch((req, res) => {
+        const notification: Notification = req.body.notification;
+        Notification.update(
+          {
+            month: notification.month,
+            date: notification.date,
+            hour: notification.hour,
+            minute: notification.minute,
+            dayOfWeek: notification.dayOfWeek,
+            active: notification.active,
+            activeOnHolidays: notification.activeOnHolidays
+          },
+          {
+            where: { id: notification.id }
+          }
+        )
+          .then(() => res.sendStatus(200))
+          .catch((err: any) => {
+            console.error(err);
+            res.sendStatus(500);
+          });
+      })
       .delete((req, res) => {
         //TODO stop scheduled notification
         console.log(`Deleting notification ${req.params.id}`);

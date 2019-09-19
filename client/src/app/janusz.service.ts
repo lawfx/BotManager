@@ -9,6 +9,10 @@ import { stringify } from '@angular/compiler/src/util';
 export class JanuszService {
   constructor(private httpClient: HttpClient) {}
 
+  getNotifications() {
+    return this.httpClient.get('/janusz/notifications');
+  }
+
   createNotification(notification: Notification, message: Message) {
     return this.httpClient.put(
       '/janusz/notifications',
@@ -22,13 +26,15 @@ export class JanuszService {
     );
   }
 
-  getNotifications() {
-    return this.httpClient.get('/janusz/notifications');
-  }
-
-  getMessages(notificationId: number) {
-    return this.httpClient.get(
-      `/janusz/notifications/${notificationId}/messages`
+  updateNotification(notification: Notification) {
+    return this.httpClient.patch(
+      `/janusz/notifications/${notification.id}`,
+      {
+        notification
+      },
+      {
+        responseType: 'text'
+      }
     );
   }
 
@@ -36,6 +42,12 @@ export class JanuszService {
     return this.httpClient.delete(`/janusz/notifications/${notificationId}`, {
       responseType: 'text'
     });
+  }
+
+  getMessages(notificationId: number) {
+    return this.httpClient.get(
+      `/janusz/notifications/${notificationId}/messages`
+    );
   }
 
   deleteMessage(messageId: number) {

@@ -19,7 +19,7 @@ export class JanuszComponent implements OnInit {
         width: '800px',
         autoFocus: false,
         restoreFocus: false,
-        disableClose: true
+        data: { isCreating: true }
       }
     );
 

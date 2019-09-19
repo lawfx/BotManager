@@ -75,7 +75,7 @@
         color="primary"
         aria-label="Edit notification"
         matTooltip="Edit notification"
-        (click)="onEditNotification(element.id)"
+        (click)="onEditNotification(element, $event)"
       >
         <mat-icon>edit</mat-icon>
       </button>
@@ -84,7 +84,7 @@
         color="warn"
         aria-label="Delete notification"
         matTooltip="Delete notification"
-        (click)="onDeleteNotification(element.id, $event)"
+        (click)="onDeleteNotification(element, $event)"
       >
         <mat-icon>delete</mat-icon>
       </button>
@@ -102,23 +102,10 @@
         class="example-element-detail"
         [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'"
       >
-        <div class="row">
-          <div class="col">
-            <button
-              mat-raised-button
-              color="primary"
-              (click)="onEditNotification()"
-            >
-              Edit notification
-            </button>
-          </div>
-          <div class="col d-flex flex-row-reverse">
-            <button mat-raised-button color="accent" (click)="onAddMessage()">
-              Add message
-            </button>
-          </div>
-        </div>
-        <div class="row py-4">
+        <button mat-raised-button color="accent" (click)="onAddMessage()">
+          Add message
+        </button>
+        <div class="row py-3">
           <div class="col">
             <h6 *ngIf="messages.length === 0">No messages</h6>
             <mat-table

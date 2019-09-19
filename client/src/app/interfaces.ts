@@ -1,4 +1,4 @@
-interface BotInfo {
+export interface BotInfo {
   author: string;
   avatarURL: string;
   uptime: number;
@@ -7,7 +7,7 @@ interface BotInfo {
   description: string;
 }
 
-interface Notification {
+export interface Notification {
   id?: number;
   label: string;
   creator: string;
@@ -20,11 +20,14 @@ interface Notification {
   dayOfWeek: string;
 }
 
-interface Message {
+export interface Message {
   id?: number;
   author: string;
   message: string;
   notificationId?: number;
 }
 
-export { BotInfo, Notification, Message };
+export interface JanuszNotificationDialogData {
+  isCreating: boolean;
+  notification?: Notification;
+}

@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Create notification</h1>
+<h1 mat-dialog-title>{{ data.isCreating ? 'Create' : 'Edit' }} notification</h1>
 <div mat-dialog-content>
   <form>
     <div class="row">
@@ -8,7 +8,14 @@
           <mat-label *ngIf="label.value.length > 0">
             {{ label.value.length }} / 32
           </mat-label>
-          <input matInput #label maxlength="32" placeholder="Label" required />
+          <input
+            matInput
+            #label
+            maxlength="32"
+            placeholder="Label"
+            required
+            [disabled]="!data.isCreating"
+          />
         </mat-form-field>
       </div>
       <div class="col">
@@ -23,6 +30,7 @@
             maxlength="64"
             placeholder="Author"
             required
+            [disabled]="!data.isCreating"
           />
         </mat-form-field>
       </div>
@@ -93,7 +101,11 @@
 
     <!-- <p>This notification will fire every {{ translateSchedule() }}</p> -->
 
-    <mat-form-field appearance="outline" class="full-width">
+    <mat-form-field
+      appearance="outline"
+      class="full-width"
+      *ngIf="data.isCreating"
+    >
       <mat-label>Message</mat-label>
       <mat-label *ngIf="message.value.length > 0">
         {{ message.value.length }} / 1024
@@ -109,8 +121,23 @@
   </form>
 </div>
 <div mat-dialog-actions class="d-flex flex-row-reverse pb-4">
-  <button mat-flat-button #createButton color="primary" (click)="onCreate()">
+  <button
+    *ngIf="data.isCreating"
+    mat-flat-button
+    #createButton
+    color="primary"
+    (click)="onCreate()"
+  >
     Create
+  </button>
+  <button
+    *ngIf="!data.isCreating"
+    mat-flat-button
+    #editButton
+    color="primary"
+    (click)="onEdit()"
+  >
+    Edit
   </button>
   <button mat-button (click)="onCancel()">Cancel</button>
 </div>

@@ -9,6 +9,8 @@ import {
 
 import { Notification, Message } from '../interfaces';
 import { JanuszService } from '../janusz.service';
+import { MatDialog } from '@angular/material/dialog';
+import { JanuszNotificationDialogComponent } from '../janusz-notification-dialog/janusz-notification-dialog.component';
 
 @Component({
   selector: 'app-janusz-notifications',
@@ -44,7 +46,10 @@ export class JanuszNotificationsComponent implements OnInit {
   displayedColumns: string[] = ['author', 'message', 'actions'];
   messages: Message[] = [];
 
-  constructor(private januszService: JanuszService) {}
+  constructor(
+    private januszService: JanuszService,
+    private januszNotificationDialog: MatDialog
+  ) {}
 
   ngOnInit() {
     // this.notificationsInterval = setInterval(() => {
@@ -71,15 +76,28 @@ export class JanuszNotificationsComponent implements OnInit {
       });
   }
 
-  onEditNotification(notificationId: number, event: Event) {
-    console.log(notificationId);
+  onEditNotification(notification: Notification, event: Event) {
     event.stopPropagation();
+    const dialogRef = this.januszNotificationDialog.open(
+      JanuszNotificationDialogComponent,
+      {
+        width: '800px',
+        autoFocus: false,
+        restoreFocus: false,
+        data: { isCreating: false, notification }
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.getNotifications();
+      }
+    });
   }
 
-  onDeleteNotification(notificationId: number, event: Event) {
+  onDeleteNotification(notification: Notification, event: Event) {
     event.stopPropagation();
-    console.log(notificationId);
-    this.januszService.deleteNotification(notificationId).subscribe(() => {
+    this.januszService.deleteNotification(notification.id).subscribe(() => {
       this.getNotifications();
     });
   }
