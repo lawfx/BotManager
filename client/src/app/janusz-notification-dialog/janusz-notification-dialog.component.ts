@@ -12,13 +12,13 @@ import { JanuszService } from '../janusz.service';
 import { MatButton } from '@angular/material/button';
 
 @Component({
-  selector: 'app-notification-dialog',
-  templateUrl: './notification-dialog.component.html',
-  styleUrls: ['./notification-dialog.component.css'],
+  selector: 'app-janusz-notification-dialog',
+  templateUrl: './janusz-notification-dialog.component.html',
+  styleUrls: ['./janusz-notification-dialog.component.css'],
   // Need to remove view encapsulation so that the custom tooltip style will not be scoped to this component's view.
   encapsulation: ViewEncapsulation.None
 })
-export class NotificationDialogComponent implements OnInit {
+export class JanuszNotificationDialogComponent implements OnInit {
   @ViewChild('label', { static: false }) label: ElementRef;
   @ViewChild('author', { static: false }) author: ElementRef;
   @ViewChild('month', { static: false }) month: ElementRef;
@@ -34,7 +34,7 @@ export class NotificationDialogComponent implements OnInit {
 
   constructor(
     private januszService: JanuszService,
-    private dialogRef: MatDialogRef<NotificationDialogComponent>
+    private dialogRef: MatDialogRef<JanuszNotificationDialogComponent>
   ) {}
 
   ngOnInit() {}

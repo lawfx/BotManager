@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { NotificationDialogComponent } from '../notification-dialog/notification-dialog.component';
+import { JanuszNotificationDialogComponent } from '../janusz-notification-dialog/janusz-notification-dialog.component';
 
 @Component({
   selector: 'app-janusz',
@@ -8,13 +8,13 @@ import { NotificationDialogComponent } from '../notification-dialog/notification
   styleUrls: ['./janusz.component.css']
 })
 export class JanuszComponent implements OnInit {
-  constructor(private notificationDialog: MatDialog) {}
+  constructor(private januszNotificationDialog: MatDialog) {}
 
   ngOnInit() {}
 
   onCreateNotification() {
-    const dialogRef = this.notificationDialog.open(
-      NotificationDialogComponent,
+    const dialogRef = this.januszNotificationDialog.open(
+      JanuszNotificationDialogComponent,
       {
         width: '800px',
         autoFocus: false,
