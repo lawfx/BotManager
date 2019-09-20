@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { BotService } from '../bot.service';
-import { BotInfo } from '../interfaces';
+import { BotInfo, ConfirmationDialogData } from '../interfaces';
 import { MatDialog } from '@angular/material/dialog';
-import { ShutdownConfirmationDialogComponent } from '../shutdown-confirmation-dialog/shutdown-confirmation-dialog.component';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -19,7 +19,7 @@ export class BotInfoComponent implements OnInit, OnDestroy {
 
   constructor(
     private botService: BotService,
-    private shutdownDialog: MatDialog,
+    private confirmDialog: MatDialog,
     private toastr: ToastrService
   ) {}
 
@@ -36,19 +36,19 @@ export class BotInfoComponent implements OnInit, OnDestroy {
   }
 
   shutdownBot() {
-    this.openShutdownDialog();
-  }
-
-  openShutdownDialog() {
-    const dialogRef = this.shutdownDialog.open(
-      ShutdownConfirmationDialogComponent,
-      {
-        width: '400px',
-        data: { botName: this.botInfo.username },
-        autoFocus: false,
-        restoreFocus: false
-      }
-    );
+    const data: ConfirmationDialogData = {
+      title: `Shutdown ${this.botInfo.username}`,
+      message: `Are you sure you want to shutdown ${this.botInfo.username}?`,
+      // tslint:disable-next-line: quotemark
+      confirmButton: "Yes, I'm sure",
+      cancelButton: 'Not really'
+    };
+    const dialogRef = this.confirmDialog.open(ConfirmationDialogComponent, {
+      width: '400px',
+      data,
+      autoFocus: false,
+      restoreFocus: false
+    });
 
     dialogRef.afterClosed().subscribe({
       next: res => {

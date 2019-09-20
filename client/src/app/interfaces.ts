@@ -37,3 +37,10 @@ export interface JanuszMessageDialogData {
   message?: Message;
   notificationId?: number;
 }
+
+export interface ConfirmationDialogData {
+  title: string;
+  message: string;
+  confirmButton: string;
+  cancelButton: string;
+}

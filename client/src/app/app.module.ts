@@ -25,7 +25,7 @@ import { BotInfoComponent } from './bot-info/bot-info.component';
 import { RedalertComponent } from './redalert/redalert.component';
 import { JanuszComponent } from './janusz/janusz.component';
 import { BotNavComponent } from './bot-nav/bot-nav.component';
-import { ShutdownConfirmationDialogComponent } from './shutdown-confirmation-dialog/shutdown-confirmation-dialog.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { JanuszNotificationsComponent } from './janusz-notifications/janusz-notifications.component';
 import { JanuszNotificationDialogComponent } from './janusz-notification-dialog/janusz-notification-dialog.component';
 import { JanuszMessageDialogComponent } from './janusz-message-dialog/janusz-message-dialog.component';
@@ -37,7 +37,7 @@ import { JanuszMessageDialogComponent } from './janusz-message-dialog/janusz-mes
     RedalertComponent,
     JanuszComponent,
     BotNavComponent,
-    ShutdownConfirmationDialogComponent,
+    ConfirmationDialogComponent,
     JanuszNotificationsComponent,
     JanuszNotificationDialogComponent,
     JanuszMessageDialogComponent
@@ -66,7 +66,7 @@ import { JanuszMessageDialogComponent } from './janusz-message-dialog/janusz-mes
   providers: [],
   bootstrap: [AppComponent],
   entryComponents: [
-    ShutdownConfirmationDialogComponent,
+    ConfirmationDialogComponent,
     JanuszNotificationDialogComponent,
     JanuszMessageDialogComponent
   ]
