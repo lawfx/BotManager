@@ -48,7 +48,7 @@ export class JanuszNotificationsComponent implements OnInit {
     'minute',
     'actions'
   ];
-  notifications;
+  notifications = new MatTableDataSource<Notification>();
   expandedNotification: Notification | null;
 
   messageColumns: string[] = ['author', 'message', 'actions'];
