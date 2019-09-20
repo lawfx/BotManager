@@ -17,24 +17,32 @@ export class ScheduledNotification {
 
   private createJob(): schedule.Job {
     console.log(`Creating job for ${this.notification.label}`);
-    return schedule.scheduleJob(
-      `0 ${this.notification.minute} ${this.notification.hour} ${this.notification.date} ${this.notification.month} ${this.notification.dayOfWeek}`,
-      () => {
-        Message.findAll({ where: { notificationId: this.id } })
-          .then((ms: Message[]) => {
-            if (ms.length) {
-              console.log(ms[Math.floor(Math.random() * ms.length)].message);
-            } else {
-              console.log(`No messages found for ${this.notification.label}`);
-            }
-          })
-          .catch((err: any) => console.error(err));
-      }
-    );
+    return schedule.scheduleJob(this.getSchedule(), () => {
+      Message.findAll({ where: { notificationId: this.id } })
+        .then((ms: Message[]) => {
+          if (ms.length) {
+            console.log(ms[Math.floor(Math.random() * ms.length)].message);
+          } else {
+            console.log(`No messages found for ${this.notification.label}`);
+          }
+        })
+        .catch((err: any) => console.error(err));
+    });
+  }
+
+  reschedule(newNotification: Notification) {
+    console.log(`Rescheduling job for ${this.notification.label}`);
+    this.notification = newNotification;
+    this.job.reschedule(this.getSchedule());
   }
 
   cancel() {
+    console.log(`Cancelling job for ${this.notification.label}`);
     this.job.cancel();
+  }
+
+  private getSchedule() {
+    return `0 ${this.notification.minute} ${this.notification.hour} ${this.notification.date} ${this.notification.month} ${this.notification.dayOfWeek}`;
   }
 
   // TODO make this

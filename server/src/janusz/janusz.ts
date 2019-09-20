@@ -13,19 +13,15 @@ import { ScheduledNotification } from './scheduled-notification';
 // const logger = log4js.getLogger('Janusz');
 
 export class Janusz extends DiscordBot {
-  private scheduledJobs: ScheduledNotification[] = [];
+  private scheduledNotifications: ScheduledNotification[] = [];
 
   constructor() {
     super('janusz', __dirname);
     this.setupRoutes();
-    // Message.create({
-    //   author: 'nikos',
-    //   message: 'Hello from server!',
-    //   notificationId: 1
-    // });
     this.setupNotifications();
   }
 
+  //TODO include active in the scheduling/unscheduling process
   private setupRoutes() {
     this.router
       .route('/notifications')
@@ -42,11 +38,7 @@ export class Janusz extends DiscordBot {
             return n;
           })
           .then((n: Notification) => {
-            // let rule = new schedule.RecurrenceRule();
-            // rule.minute = this.convertToRecurrenceSegment('0,15,30-45');
-            // schedule.scheduleJob(rule, () => {
-            //   console.log('firing');
-            // });
+            this.scheduleNotification(n);
           })
           .catch((err: any) => {
             console.error(err);
@@ -72,17 +64,22 @@ export class Janusz extends DiscordBot {
             where: { id: req.params.id }
           }
         )
-          .then(() => res.sendStatus(200))
+          .then(() => {
+            this.rescheduleNotification(notification);
+            res.sendStatus(200);
+          })
           .catch((err: any) => {
             console.error(err);
             res.sendStatus(500);
           });
       })
       .delete((req, res) => {
-        //TODO stop scheduled notification
         console.log(`Deleting notification ${req.params.id}`);
         Notification.destroy({ where: { id: req.params.id } })
-          .then(() => res.sendStatus(200))
+          .then(() => {
+            this.cancelScheduledNotification(Number(req.params.id));
+            res.sendStatus(200);
+          })
           .catch((err: any) => {
             console.error(err);
             res.sendStatus(500);
@@ -135,8 +132,30 @@ export class Janusz extends DiscordBot {
   private setupNotifications() {
     Notification.findAll().then((ns: Notification[]) => {
       ns.forEach(n => {
-        this.scheduledJobs.push(new ScheduledNotification(n));
+        this.scheduleNotification(n);
       });
     });
+  }
+
+  private getScheduledNotificationById(id: number) {
+    return this.scheduledNotifications.find(n => n.id === id);
+  }
+
+  private scheduleNotification(n: Notification) {
+    this.scheduledNotifications.push(new ScheduledNotification(n));
+  }
+
+  private rescheduleNotification(n: Notification) {
+    const scheduledNotification = this.getScheduledNotificationById(n.id);
+    if (scheduledNotification !== undefined) {
+      scheduledNotification.reschedule(n);
+    }
+  }
+
+  private cancelScheduledNotification(id: number) {
+    const index = this.scheduledNotifications.findIndex(n => n.id === id);
+    if (index === -1) return;
+    this.scheduledNotifications[index].cancel();
+    this.scheduledNotifications.splice(index, 1);
   }
 }

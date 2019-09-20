@@ -5,10 +5,11 @@ import { Router } from 'express';
 
 export class DiscordBot {
   private name: string;
-  private client: Discord.Client;
   private config = {} as Config;
   private token: string = '';
   private basePath: string;
+
+  protected client: Discord.Client;
 
   router: Router;
 
