@@ -9,12 +9,14 @@ import {
 
 import { Notification, Message } from '../interfaces';
 import { JanuszService } from '../janusz.service';
+import { JanuszNotificationDialogComponent } from '../janusz-notification-dialog/janusz-notification-dialog.component';
+import { JanuszMessageDialogComponent } from '../janusz-message-dialog/janusz-message-dialog.component';
+
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 
-import { JanuszNotificationDialogComponent } from '../janusz-notification-dialog/janusz-notification-dialog.component';
-import { JanuszMessageDialogComponent } from '../janusz-message-dialog/janusz-message-dialog.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-janusz-notifications',
@@ -54,7 +56,8 @@ export class JanuszNotificationsComponent implements OnInit {
   constructor(
     private januszService: JanuszService,
     private januszNotificationDialog: MatDialog,
-    private januszMessageDialog: MatDialog
+    private januszMessageDialog: MatDialog,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -68,9 +71,15 @@ export class JanuszNotificationsComponent implements OnInit {
   /** Notifications */
 
   getNotifications() {
-    this.januszService.getNotifications().subscribe((ns: Notification[]) => {
-      this.notifications = new MatTableDataSource<Notification>(ns);
-      this.notifications.paginator = this.paginator;
+    this.januszService.getNotifications().subscribe({
+      next: (ns: Notification[]) => {
+        this.notifications = new MatTableDataSource<Notification>(ns);
+        this.notifications.paginator = this.paginator;
+      },
+      error: err => {
+        console.error(err);
+        this.toastr.error('Notifications fetch failed');
+      }
     });
   }
 
@@ -85,10 +94,14 @@ export class JanuszNotificationsComponent implements OnInit {
       }
     );
 
-    dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        console.log(45345);
-        this.getNotifications();
+    dialogRef.afterClosed().subscribe({
+      next: (val: number) => {
+        if (val === 0) {
+          this.toastr.error('Notification creation failed');
+        } else if (val === 1) {
+          this.toastr.success('Notification created');
+          this.getNotifications();
+        }
       }
     });
   }
@@ -105,28 +118,44 @@ export class JanuszNotificationsComponent implements OnInit {
       }
     );
 
-    dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        this.getNotifications();
+    dialogRef.afterClosed().subscribe({
+      next: (val: number) => {
+        if (val === 0) {
+          this.toastr.error('Notification edit failed');
+        } else if (val === 1) {
+          this.toastr.success('Notification edited');
+          this.getNotifications();
+        }
       }
     });
   }
 
   onDeleteNotification(notification: Notification, event: Event) {
     event.stopPropagation();
-    this.januszService.deleteNotification(notification.id).subscribe(() => {
-      this.getNotifications();
+    this.januszService.deleteNotification(notification.id).subscribe({
+      next: () => {
+        this.toastr.success('Notification deleted');
+        this.getNotifications();
+      },
+      error: err => {
+        console.error(err);
+        this.toastr.error('Notification delete failed');
+      }
     });
   }
 
   /** Messages */
 
   getMessages(notificationId: number) {
-    this.januszService
-      .getMessages(notificationId)
-      .subscribe((ms: Message[]) => {
+    this.januszService.getMessages(notificationId).subscribe({
+      next: (ms: Message[]) => {
         this.messages = ms;
-      });
+      },
+      error: err => {
+        console.error(err);
+        this.toastr.error('Messages fetch failed');
+      }
+    });
   }
 
   onAddMessage() {
@@ -140,9 +169,14 @@ export class JanuszNotificationsComponent implements OnInit {
       }
     );
 
-    dialogRef.afterClosed().subscribe(res => {
-      if (res && this.expandedNotification.id !== undefined) {
-        this.getMessages(this.expandedNotification.id);
+    dialogRef.afterClosed().subscribe({
+      next: (val: number) => {
+        if (val === 0) {
+          this.toastr.error('Message addition failed');
+        } else if (val === 1) {
+          this.toastr.success('Message added');
+          this.getMessages(this.expandedNotification.id);
+        }
       }
     });
   }
@@ -158,16 +192,28 @@ export class JanuszNotificationsComponent implements OnInit {
       }
     );
 
-    dialogRef.afterClosed().subscribe(res => {
-      if (res && this.expandedNotification.id !== undefined) {
-        this.getMessages(this.expandedNotification.id);
+    dialogRef.afterClosed().subscribe({
+      next: (val: number) => {
+        if (val === 0) {
+          this.toastr.error('Message editing failed');
+        } else if (val === 1) {
+          this.toastr.success('Message edited');
+          this.getMessages(this.expandedNotification.id);
+        }
       }
     });
   }
 
   onDeleteMessage(messageId: number) {
-    this.januszService.deleteMessage(messageId).subscribe(() => {
-      this.getMessages(this.expandedNotification.id);
+    this.januszService.deleteMessage(messageId).subscribe({
+      next: () => {
+        this.toastr.success('Message deleted');
+        this.getMessages(this.expandedNotification.id);
+      },
+      error: err => {
+        console.error(err);
+        this.toastr.error('Message deletion failed');
+      }
     });
   }
 }

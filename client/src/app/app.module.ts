@@ -16,6 +16,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
+import { ToastrModule } from 'ngx-toastr';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
@@ -56,7 +58,10 @@ import { JanuszMessageDialogComponent } from './janusz-message-dialog/janusz-mes
     MatCheckboxModule,
     MatTooltipModule,
     MatIconModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    ToastrModule.forRoot({
+      timeOut: 3000
+    })
   ],
   providers: [],
   bootstrap: [AppComponent],

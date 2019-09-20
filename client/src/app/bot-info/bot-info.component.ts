@@ -3,6 +3,7 @@ import { BotService } from '../bot.service';
 import { BotInfo } from '../interfaces';
 import { MatDialog } from '@angular/material/dialog';
 import { ShutdownConfirmationDialogComponent } from '../shutdown-confirmation-dialog/shutdown-confirmation-dialog.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-bot-info',
@@ -18,7 +19,8 @@ export class BotInfoComponent implements OnInit, OnDestroy {
 
   constructor(
     private botService: BotService,
-    private shutdownDialog: MatDialog
+    private shutdownDialog: MatDialog,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -48,30 +50,43 @@ export class BotInfoComponent implements OnInit, OnDestroy {
       }
     );
 
-    dialogRef.afterClosed().subscribe(res => {
-      if (res === true) {
-        this.botService
-          .shutdown(this.botName)
-          .subscribe(() => {}, err => console.error(err));
+    dialogRef.afterClosed().subscribe({
+      next: res => {
+        if (res) {
+          this.botService.shutdown(this.botName).subscribe({
+            next: () => this.toastr.success('Shutting down'),
+            error: err => {
+              console.error(err);
+              this.toastr.error('Shutdown failed');
+            }
+          });
+        }
       }
     });
   }
 
   rebootBot() {
-    this.botService
-      .reboot(this.botName)
-      .subscribe(() => {}, err => console.error(err));
+    this.botService.reboot(this.botName).subscribe({
+      next: () => this.toastr.success('Rebooting'),
+      error: err => {
+        console.error(err);
+        this.toastr.error('Reboot failed');
+      }
+    });
   }
 
   getInfo(botName: string) {
-    this.botService.getInfo(botName).subscribe(
-      (res: BotInfo) => {
+    this.botService.getInfo(botName).subscribe({
+      next: (res: BotInfo) => {
         this.botInfo = res;
         this.statusToText(res.status);
         this.uptimeToReadable(res.uptime, res.status);
       },
-      err => console.error(err)
-    );
+      error: err => {
+        console.error(err);
+        this.toastr.error('Info fetch failed');
+      }
+    });
   }
 
   statusToText(status: number) {

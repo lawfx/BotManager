@@ -18,7 +18,12 @@
     <strong>Uptime:</strong> {{ uptimeReadable }}
   </mat-card-content>
   <div class="d-flex flex-row-reverse">
-    <button (click)="shutdownBot()" mat-flat-button color="warn">
+    <button
+      (click)="shutdownBot()"
+      [disabled]="botInfo.status !== 0"
+      mat-flat-button
+      color="warn"
+    >
       Shutdown
     </button>
     <button (click)="rebootBot()" mat-flat-button>Reboot</button>

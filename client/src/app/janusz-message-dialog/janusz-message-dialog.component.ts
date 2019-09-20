@@ -40,7 +40,7 @@ export class JanuszMessageDialogComponent implements OnInit, AfterViewInit {
   }
 
   onCancel() {
-    this.dialogRef.close(false);
+    this.dialogRef.close();
   }
 
   onAdd() {
@@ -51,8 +51,14 @@ export class JanuszMessageDialogComponent implements OnInit, AfterViewInit {
       notificationId: this.data.notificationId
     };
 
-    this.januszService.addMessage(message).subscribe(res => {
-      this.dialogRef.close(true);
+    this.januszService.addMessage(message).subscribe({
+      next: () => {
+        this.dialogRef.close(1);
+      },
+      error: err => {
+        console.error(err);
+        this.dialogRef.close(0);
+      }
     });
   }
 
@@ -64,8 +70,14 @@ export class JanuszMessageDialogComponent implements OnInit, AfterViewInit {
       message: this.message.nativeElement.value
     };
 
-    this.januszService.editMessage(message).subscribe(res => {
-      this.dialogRef.close(true);
+    this.januszService.editMessage(message).subscribe({
+      next: () => {
+        this.dialogRef.close(1);
+      },
+      error: err => {
+        console.error(err);
+        this.dialogRef.close(0);
+      }
     });
   }
 }

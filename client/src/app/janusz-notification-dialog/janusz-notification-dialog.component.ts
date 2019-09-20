@@ -62,7 +62,7 @@ export class JanuszNotificationDialogComponent
   }
 
   onCancel() {
-    this.dialogRef.close(false);
+    this.dialogRef.close();
   }
 
   onCreate() {
@@ -84,11 +84,13 @@ export class JanuszNotificationDialogComponent
       message: this.message.nativeElement.value
     };
 
-    this.januszService
-      .createNotification(notification, message)
-      .subscribe(res => {
-        this.dialogRef.close(true);
-      });
+    this.januszService.createNotification(notification, message).subscribe({
+      next: () => this.dialogRef.close(1),
+      error: err => {
+        console.error(err);
+        this.dialogRef.close(0);
+      }
+    });
   }
 
   onEdit() {
@@ -107,8 +109,12 @@ export class JanuszNotificationDialogComponent
       dayOfWeek: this.dayOfWeek.nativeElement.value
     };
 
-    this.januszService.updateNotification(notification).subscribe(res => {
-      this.dialogRef.close(true);
+    this.januszService.updateNotification(notification).subscribe({
+      next: () => this.dialogRef.close(1),
+      error: err => {
+        console.error(err);
+        this.dialogRef.close(0);
+      }
     });
   }
 

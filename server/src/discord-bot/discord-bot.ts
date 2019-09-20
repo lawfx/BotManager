@@ -58,16 +58,20 @@ export class DiscordBot {
         .then(() => res.sendStatus(200))
         .catch(err => {
           // logger.error(err);
-          res.status(500).send(err);
+          console.error(err);
+          res.sendStatus(500);
         });
     });
 
     this.router.put('/reboot', (req, res) => {
       // logger.info('Restarting client');
       this.disconnect()
-        .then(() => this.connect())
         .then(() => res.sendStatus(200))
-        .catch(err => res.status(500).send(err));
+        .then(() => this.connect())
+        .catch(err => {
+          console.error(err);
+          res.sendStatus(500);
+        });
     });
   }
 
