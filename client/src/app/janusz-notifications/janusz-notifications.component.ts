@@ -135,7 +135,7 @@ export class JanuszNotificationsComponent implements OnInit {
   onDeleteNotification(notification: Notification, event: Event) {
     event.stopPropagation();
     const data: ConfirmationDialogData = {
-      title: `Delete ${notification.label}`,
+      title: `Delete notification`,
       message: `Are you sure you want to delete ${notification.label}?`,
       // tslint:disable-next-line: quotemark
       confirmButton: "Yes, I'm sure",

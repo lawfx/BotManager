@@ -37,7 +37,7 @@ export class BotInfoComponent implements OnInit, OnDestroy {
 
   shutdownBot() {
     const data: ConfirmationDialogData = {
-      title: `Shutdown ${this.botInfo.username}`,
+      title: `Bot shutdown`,
       message: `Are you sure you want to shutdown ${this.botInfo.username}?`,
       // tslint:disable-next-line: quotemark
       confirmButton: "Yes, I'm sure",

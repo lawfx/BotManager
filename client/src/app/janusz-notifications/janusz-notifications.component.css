@@ -6,12 +6,15 @@ tr.notification-detail-row {
   height: 0;
 }
 
-tr.notification-element-row:not(.example-expanded-row):hover {
+tr.notification-element-row:not(.notification-expanded-row):hover {
   background: #3f51b522;
+}
+
+tr.notification-element-row:hover {
   cursor: pointer;
 }
 
-tr.notification-element-row:not(.example-expanded-row):active {
+tr.notification-element-row:not(.notification-expanded-row):active {
   background: #efefef;
 }
 
