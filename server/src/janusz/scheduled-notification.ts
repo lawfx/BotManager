@@ -18,6 +18,7 @@ export class ScheduledNotification {
   private createJob(): schedule.Job {
     console.log(`Creating job for ${this.notification.label}`);
     return schedule.scheduleJob(this.getSchedule(), () => {
+      if (!this.notification.activeOnHolidays && this.isHolidayToday()) return;
       Message.findAll({ where: { notificationId: this.id } })
         .then((ms: Message[]) => {
           if (ms.length) {
@@ -37,12 +38,17 @@ export class ScheduledNotification {
   }
 
   cancel() {
-    console.log(`Cancelling job for ${this.notification.label}`);
+    console.log(`Canceling job for ${this.notification.label}`);
     this.job.cancel();
   }
 
   private getSchedule() {
     return `0 ${this.notification.minute} ${this.notification.hour} ${this.notification.date} ${this.notification.month} ${this.notification.dayOfWeek}`;
+  }
+
+  // TODO fix when I add holidays
+  private isHolidayToday(): boolean {
+    return false;
   }
 
   // TODO make this

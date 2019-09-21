@@ -21,7 +21,6 @@ export class Janusz extends DiscordBot {
     this.setupNotifications();
   }
 
-  //TODO include active in the scheduling/unscheduling process
   private setupRoutes() {
     this.router
       .route('/notifications')
@@ -50,6 +49,7 @@ export class Janusz extends DiscordBot {
       .route('/notifications/:id')
       .patch((req, res) => {
         const notification: Notification = req.body.notification;
+        notification.id = Number(req.params.id);
         Notification.update(
           {
             month: notification.month,
@@ -74,10 +74,9 @@ export class Janusz extends DiscordBot {
           });
       })
       .delete((req, res) => {
-        console.log(`Deleting notification ${req.params.id}`);
         Notification.destroy({ where: { id: req.params.id } })
           .then(() => {
-            this.cancelScheduledNotification(Number(req.params.id));
+            this.cancelNotification(Number(req.params.id));
             res.sendStatus(200);
           })
           .catch((err: any) => {
@@ -119,7 +118,6 @@ export class Janusz extends DiscordBot {
           });
       })
       .delete((req, res) => {
-        console.log(`Deleting message ${req.params.id}`);
         Message.destroy({ where: { id: req.params.id } })
           .then(() => res.sendStatus(200))
           .catch((err: any) => {
@@ -142,17 +140,25 @@ export class Janusz extends DiscordBot {
   }
 
   private scheduleNotification(n: Notification) {
-    this.scheduledNotifications.push(new ScheduledNotification(n));
+    if (n.active) {
+      this.scheduledNotifications.push(new ScheduledNotification(n));
+    }
   }
 
   private rescheduleNotification(n: Notification) {
     const scheduledNotification = this.getScheduledNotificationById(n.id);
     if (scheduledNotification !== undefined) {
-      scheduledNotification.reschedule(n);
+      if (n.active) {
+        scheduledNotification.reschedule(n);
+      } else {
+        this.cancelNotification(n.id);
+      }
+    } else if (n.active) {
+      this.scheduleNotification(n);
     }
   }
 
-  private cancelScheduledNotification(id: number) {
+  private cancelNotification(id: number) {
     const index = this.scheduledNotifications.findIndex(n => n.id === id);
     if (index === -1) return;
     this.scheduledNotifications[index].cancel();
