@@ -1,0 +1,10 @@
+img.nav-avatar {
+  width: 30px;
+  height: auto;
+  border-radius: 100%;
+  margin-right: 5px;
+}
+
+.full-opacity {
+  opacity: 1;
+}

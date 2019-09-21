@@ -5,8 +5,14 @@
     routerLinkActive
     #redalertActive="routerLinkActive"
     [active]="redalertActive.isActive"
+    [class.full-opacity]="redalertActive.isActive"
   >
-    RedAlert
+    <img
+      class="nav-avatar"
+      *ngIf="redAlert.avatarURL !== undefined"
+      [src]="redAlert.avatarURL"
+    />
+    {{ redAlert.username === undefined ? 'Bot' : redAlert.username }}
   </div>
   <div
     mat-tab-link
@@ -14,7 +20,13 @@
     routerLinkActive
     #januszActive="routerLinkActive"
     [active]="januszActive.isActive"
+    [class.full-opacity]="januszActive.isActive"
   >
-    Janusz
+    <img
+      class="nav-avatar"
+      *ngIf="janusz.avatarURL !== undefined"
+      [src]="janusz.avatarURL"
+    />
+    {{ janusz.username === undefined ? 'Bot' : janusz.username }}
   </div>
 </nav>
