@@ -19,10 +19,20 @@ export class BotNavComponent implements OnInit {
 
   private getBotsInfo() {
     this.botService.getInfo('redalert').subscribe({
-      next: (botInfo: BotInfo) => (this.redAlert = botInfo)
+      next: (botInfo: BotInfo) => (this.redAlert = botInfo),
+      error: () => {
+        if (Object.keys(this.janusz).length === 0) {
+          this.getBotsInfo();
+        }
+      }
     });
     this.botService.getInfo('janusz').subscribe({
-      next: (botInfo: BotInfo) => (this.janusz = botInfo)
+      next: (botInfo: BotInfo) => (this.janusz = botInfo),
+      error: () => {
+        if (Object.keys(this.redAlert).length === 0) {
+          this.getBotsInfo();
+        }
+      }
     });
   }
 }
