@@ -26,7 +26,7 @@ export class BotInfoComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.getInfo(this.botName);
+    this.getInfo();
   }
 
   ngOnDestroy(): void {
@@ -74,8 +74,8 @@ export class BotInfoComponent implements OnInit, OnDestroy {
     });
   }
 
-  getInfo(botName: string) {
-    this.botService.getInfo(botName).subscribe({
+  getInfo() {
+    this.botService.getInfo(this.botName).subscribe({
       next: (res: BotInfo) => {
         this.botInfo = res;
         this.statusToText(res.status);
@@ -86,16 +86,22 @@ export class BotInfoComponent implements OnInit, OnDestroy {
       error: err => {
         console.error(err);
         this.toastr.error('Info fetch failed');
+        // . Click me try again immediately', null, {
+        //   timeOut: this.infoTimeoutTime,
+        //   progressBar: true
+        // })
+        // .onTap.subscribe({
+        //   next: () => this.getInfo()
+        // });
         this.stopInfoWithInterval();
-        this.getInfoWithTimeout(this.infoTimeoutTime);
-        this.infoTimeoutTime *= 2;
+        this.getInfoWithTimeout();
       }
     });
   }
 
   getInfoWithInterval() {
     if (this.infoInterval === null) {
-      this.infoInterval = setInterval(() => this.getInfo(this.botName), 1000);
+      this.infoInterval = setInterval(() => this.getInfo(), 1000);
     }
   }
 
@@ -106,8 +112,10 @@ export class BotInfoComponent implements OnInit, OnDestroy {
     }
   }
 
-  getInfoWithTimeout(timeout: number) {
-    this.infoTimeout = setTimeout(() => this.getInfo(this.botName), timeout);
+  getInfoWithTimeout() {
+    console.log(this.infoTimeoutTime);
+    this.infoTimeout = setTimeout(() => this.getInfo(), this.infoTimeoutTime);
+    this.infoTimeoutTime *= 2;
   }
 
   stopInfoWithTimeout() {
