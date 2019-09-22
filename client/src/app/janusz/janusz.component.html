@@ -3,6 +3,24 @@
     <app-bot-info botName="janusz"></app-bot-info>
   </div>
   <div class="pt-4">
-    <app-janusz-notifications></app-janusz-notifications>
+    <mat-tab-group mat-align-tabs="center">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">notifications</mat-icon>
+          Notifications
+        </ng-template>
+        <div class="pt-4">
+          <app-janusz-notifications></app-janusz-notifications>
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">thumb_up</mat-icon>
+          Second
+        </ng-template>
+        Content 2
+      </mat-tab>
+    </mat-tab-group>
   </div>
 </div>

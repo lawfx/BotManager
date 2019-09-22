@@ -35,7 +35,14 @@ import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation
   ]
 })
 export class JanuszNotificationsComponent implements OnInit {
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  private paginator: MatPaginator;
+
+  @ViewChild(MatPaginator, { static: false }) set matPaginator(
+    mp: MatPaginator
+  ) {
+    this.paginator = mp;
+    this.notifications.paginator = this.paginator;
+  }
 
   notificationColumns: string[] = [
     'label',
