@@ -12,14 +12,10 @@ export class BotService {
   }
 
   shutdown(botName: string) {
-    return this.httpClient.put(`/${botName}/shutdown`, null, {
-      responseType: 'text'
-    });
+    return this.httpClient.put(`/${botName}/shutdown`, null);
   }
 
   reboot(botName: string) {
-    return this.httpClient.put(`/${botName}/reboot`, null, {
-      responseType: 'text'
-    });
+    return this.httpClient.put(`/${botName}/reboot`, null);
   }
 }

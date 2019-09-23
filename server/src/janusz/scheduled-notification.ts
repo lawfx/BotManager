@@ -46,12 +46,11 @@ export class ScheduledNotification {
     return `0 ${this.notification.minute} ${this.notification.hour} ${this.notification.date} ${this.notification.month} ${this.notification.dayOfWeek}`;
   }
 
-  // TODO fix when I add holidays
   private isNotHolidayToday() {
     return new Promise((res, rej) => {
+      // TODO fix the where because the db will have date in 0,0,0,0 h/m/s/ms so it should compare to that
       Holiday.findOne({ where: { date: new Date().toISOString() } })
         .then((n: Holiday) => {
-          console.log(n);
           if (n === null) res();
           else rej();
         })
@@ -70,9 +69,4 @@ export class ScheduledNotification {
       })
       .catch((err: any) => console.error(err));
   }
-
-  // TODO make this
-  // reschedule() {
-  //   this.job.reschedule('');
-  // }
 }

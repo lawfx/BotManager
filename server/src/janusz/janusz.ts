@@ -2,6 +2,7 @@ import { DiscordBot } from '../discord-bot/discord-bot';
 import { Notification } from './models/notification';
 import { Message } from './models/message';
 import { ScheduledNotification } from './scheduled-notification';
+import { Holiday } from './models/holiday';
 
 // log4js.configure({
 //   appenders: {
@@ -25,7 +26,11 @@ export class Janusz extends DiscordBot {
     this.router
       .route('/notifications')
       .get((req, res) => {
-        Notification.findAll().then((n: Notification[]) => res.send(n));
+        Notification.findAll()
+          .then((n: Notification[]) => res.send(n))
+          .catch((err: any) =>
+            res.status(500).send({ message: 'Database error' })
+          );
       })
       .put((req, res) => {
         const notification: Notification = req.body.notification;
@@ -33,7 +38,7 @@ export class Janusz extends DiscordBot {
         Notification.create(notification)
           .then((n: Notification) => {
             message.notificationId = n.id;
-            Message.create(message).then(() => res.sendStatus(200));
+            Message.create(message).then(() => res.send({}));
             return n;
           })
           .then((n: Notification) => {
@@ -41,7 +46,7 @@ export class Janusz extends DiscordBot {
           })
           .catch((err: any) => {
             console.error(err);
-            res.sendStatus(500);
+            res.status(500).send({ message: 'Database error' });
           });
       });
 
@@ -66,40 +71,44 @@ export class Janusz extends DiscordBot {
         )
           .then(() => {
             this.rescheduleNotification(notification);
-            res.sendStatus(200);
+            res.send({});
           })
           .catch((err: any) => {
             console.error(err);
-            res.sendStatus(500);
+            res.status(500).send({ message: 'Database error' });
           });
       })
       .delete((req, res) => {
         Notification.destroy({ where: { id: req.params.id } })
           .then(() => {
             this.cancelNotification(Number(req.params.id));
-            res.sendStatus(200);
+            res.send({});
           })
           .catch((err: any) => {
             console.error(err);
-            res.sendStatus(500);
+            res.status(500).send({ message: 'Database error' });
           });
       });
 
     this.router.route('/notifications/:id/messages').get((req, res) =>
       Message.findAll({
         where: { notificationId: req.params.id }
-      }).then((ms: Message[]) => {
-        res.send(ms);
       })
+        .then((ms: Message[]) => {
+          res.send(ms);
+        })
+        .catch((err: any) =>
+          res.status(500).send({ message: 'Database error' })
+        )
     );
 
     this.router.route('/messages').put((req, res) => {
       const message: Message = req.body.message;
       Message.create(message)
-        .then(() => res.sendStatus(200))
+        .then(() => res.send({}))
         .catch((err: any) => {
           console.error(err);
-          res.sendStatus(500);
+          res.status(500).send({ message: 'Database error' });
         });
     });
 
@@ -111,26 +120,50 @@ export class Janusz extends DiscordBot {
           { message: message.message },
           { where: { id: req.params.id } }
         )
-          .then(() => res.sendStatus(200))
+          .then(() => res.send({}))
           .catch((err: any) => {
             console.error(err);
-            res.sendStatus(500);
+            res.status(500).send({ message: 'Database error' });
           });
       })
       .delete((req, res) => {
         Message.destroy({ where: { id: req.params.id } })
-          .then(() => res.sendStatus(200))
+          .then(() => res.send({}))
           .catch((err: any) => {
             console.error(err);
-            res.sendStatus(500);
+            res.status(500).send({ message: 'Database error' });
           });
       });
 
     this.router
       .route('/holidays')
-      .get((req, res) => {})
-      .put((req, res) => {})
-      .delete((req, res) => {});
+      .get((req, res) => {
+        Holiday.findAll()
+          .then((hs: Holiday[]) => res.send(hs))
+          .catch((err: any) =>
+            res.status(500).send({ message: 'Database error' })
+          );
+      })
+      .put((req, res) => {
+        const holiday: Holiday = req.body.holiday;
+        Holiday.create(holiday)
+          .then(() => {
+            res.send({});
+          })
+          .catch((err: any) => {
+            console.error(err);
+            res.status(500).send({ message: 'Database error' });
+          });
+      });
+
+    this.router.route('/holidays/:id').delete((req, res) => {
+      Holiday.destroy({ where: { id: req.params.id } })
+        .then(() => res.send({}))
+        .catch((err: any) => {
+          console.error(err);
+          res.status(500).send({ message: 'Database error' });
+        });
+    });
   }
 
   private setupNotifications() {

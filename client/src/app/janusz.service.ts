@@ -13,25 +13,20 @@ export class JanuszService {
   }
 
   createNotification(notification: Notification, message: Message) {
-    return this.httpClient.put(
-      '/janusz/notifications',
-      { notification, message },
-      { responseType: 'text' }
-    );
+    return this.httpClient.put('/janusz/notifications', {
+      notification,
+      message
+    });
   }
 
   updateNotification(notification: Notification) {
-    return this.httpClient.patch(
-      `/janusz/notifications/${notification.id}`,
-      { notification },
-      { responseType: 'text' }
-    );
+    return this.httpClient.patch(`/janusz/notifications/${notification.id}`, {
+      notification
+    });
   }
 
   deleteNotification(notificationId: number) {
-    return this.httpClient.delete(`/janusz/notifications/${notificationId}`, {
-      responseType: 'text'
-    });
+    return this.httpClient.delete(`/janusz/notifications/${notificationId}`);
   }
 
   getMessages(notificationId: number) {
@@ -41,24 +36,14 @@ export class JanuszService {
   }
 
   addMessage(message: Message) {
-    return this.httpClient.put(
-      `/janusz/messages`,
-      { message },
-      { responseType: 'text' }
-    );
+    return this.httpClient.put(`/janusz/messages`, { message });
   }
 
   editMessage(message: Message) {
-    return this.httpClient.patch(
-      `/janusz/messages/${message.id}`,
-      { message },
-      { responseType: 'text' }
-    );
+    return this.httpClient.patch(`/janusz/messages/${message.id}`, { message });
   }
 
   deleteMessage(messageId: number) {
-    return this.httpClient.delete(`/janusz/messages/${messageId}`, {
-      responseType: 'text'
-    });
+    return this.httpClient.delete(`/janusz/messages/${messageId}`);
   }
 }

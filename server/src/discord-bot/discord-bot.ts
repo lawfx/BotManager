@@ -36,7 +36,7 @@ export class DiscordBot {
   private setupBasicRoutes() {
     this.router.get('/info', (req, res) => {
       if (this.client.user === null) {
-        res.sendStatus(500);
+        res.status(500).send({ message: 'Client unavailable' });
         return;
       }
 
@@ -56,22 +56,22 @@ export class DiscordBot {
     this.router.put('/shutdown', (req, res) => {
       // logger.info('Shutting down client');
       this.disconnect()
-        .then(() => res.sendStatus(200))
+        .then(() => res.send({}))
         .catch(err => {
           // logger.error(err);
           console.error(err);
-          res.sendStatus(500);
+          res.status(500).send({ message: 'Error disconnecting' });
         });
     });
 
     this.router.put('/reboot', (req, res) => {
       // logger.info('Restarting client');
       this.disconnect()
-        .then(() => res.sendStatus(200))
+        .then(() => res.send({}))
         .then(() => this.connect())
         .catch(err => {
           console.error(err);
-          res.sendStatus(500);
+          res.status(500).send({ message: 'Error rebooting' });
         });
     });
   }
