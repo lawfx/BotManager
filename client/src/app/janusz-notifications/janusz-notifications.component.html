@@ -182,10 +182,7 @@
       </td>
     </ng-container>
 
-    <tr
-      mat-header-row
-      *matHeaderRowDef="notificationColumns"
-    ></tr>
+    <tr mat-header-row *matHeaderRowDef="notificationColumns"></tr>
     <tr
       mat-row
       *matRowDef="let element; columns: notificationColumns"
@@ -205,6 +202,7 @@
 
   <mat-paginator
     [pageSizeOptions]="[5, 10, 20]"
+    [pageSize]="10"
     showFirstLastButtons
   ></mat-paginator>
 </div>
