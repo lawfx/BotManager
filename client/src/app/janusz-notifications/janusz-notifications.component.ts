@@ -35,13 +35,15 @@ import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation
   ]
 })
 export class JanuszNotificationsComponent implements OnInit {
-  private paginator: MatPaginator;
+  @ViewChild('paginatorNotifications', { static: false })
+  set paginatorNotifications(pn: MatPaginator) {
+    this.notifications.paginator = pn;
+  }
 
-  @ViewChild(MatPaginator, { static: false }) set matPaginator(
-    mp: MatPaginator
+  @ViewChild('paginatorMessages', { static: false }) set paginatorMessages(
+    pm: MatPaginator
   ) {
-    this.paginator = mp;
-    this.notifications.paginator = this.paginator;
+    this.messages.paginator = pm;
   }
 
   notificationColumns: string[] = [
@@ -59,7 +61,7 @@ export class JanuszNotificationsComponent implements OnInit {
   expandedNotification: Notification | null;
 
   messageColumns: string[] = ['author', 'message', 'actions'];
-  messages: Message[] = [];
+  messages = new MatTableDataSource<Message>();
 
   constructor(
     private januszService: JanuszService,
@@ -83,7 +85,6 @@ export class JanuszNotificationsComponent implements OnInit {
     this.januszService.getNotifications().subscribe({
       next: (ns: Notification[]) => {
         this.notifications = new MatTableDataSource<Notification>(ns);
-        this.notifications.paginator = this.paginator;
       },
       error: err => {
         console.error(err);
@@ -178,7 +179,7 @@ export class JanuszNotificationsComponent implements OnInit {
   getMessages(notificationId: number) {
     this.januszService.getMessages(notificationId).subscribe({
       next: (ms: Message[]) => {
-        this.messages = ms;
+        this.messages = new MatTableDataSource<Message>(ms);
       },
       error: err => {
         console.error(err);

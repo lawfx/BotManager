@@ -121,9 +121,9 @@
           </button>
           <div class="row py-3">
             <div class="col">
-              <h6 *ngIf="messages.length === 0">No messages</h6>
+              <h6 *ngIf="messages.data.length === 0">No messages</h6>
               <mat-table
-                *ngIf="messages.length"
+                *ngIf="messages.data.length && element === expandedNotification"
                 [dataSource]="messages"
                 class="mat-elevation-z4"
               >
@@ -176,6 +176,12 @@
                   *matRowDef="let row; columns: messageColumns"
                 ></mat-row>
               </mat-table>
+              <mat-paginator
+                *ngIf="messages.data.length && element === expandedNotification"
+                [pageSizeOptions]="[5, 10]"
+                [pageSize]="5"
+                #paginatorMessages
+              ></mat-paginator>
             </div>
           </div>
         </div>
@@ -204,5 +210,6 @@
     [pageSizeOptions]="[5, 10, 20]"
     [pageSize]="10"
     showFirstLastButtons
+    #paginatorNotifications
   ></mat-paginator>
 </div>
