@@ -106,6 +106,7 @@
     <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
     <ng-container matColumnDef="expandedNotificationDetail">
       <td
+        class="indigo500-tint"
         mat-cell
         *matCellDef="let element"
         [attr.colspan]="notificationColumns.length"
@@ -116,7 +117,12 @@
             element == expandedNotification ? 'expanded' : 'collapsed'
           "
         >
-          <button mat-raised-button color="accent" (click)="onAddMessage()">
+          <button
+            mat-raised-button
+            class="mt-3"
+            color="accent"
+            (click)="onAddMessage()"
+          >
             Add message
           </button>
           <div class="row py-3">

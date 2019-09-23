@@ -6,8 +6,12 @@ tr.notification-detail-row {
   height: 0;
 }
 
+tr.notification-expanded-row {
+  background: #3f51b511;
+}
+
 tr.notification-element-row:not(.notification-expanded-row):hover {
-  background: #3f51b522;
+  background: #3f51b533;
 }
 
 tr.notification-element-row:hover {
@@ -44,4 +48,8 @@ mat-cell.width100 {
 th.width100,
 td.width100 {
   width: 100px;
+}
+
+.indigo500-tint {
+  background: #3f51b511;
 }
