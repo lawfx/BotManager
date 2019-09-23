@@ -2,6 +2,7 @@ import schedule from 'node-schedule';
 
 import { Notification } from './models/notification';
 import { Message } from './models/message';
+import { Holiday } from './models/holiday';
 
 export class ScheduledNotification {
   private notification: Notification;
@@ -18,16 +19,15 @@ export class ScheduledNotification {
   private createJob(): schedule.Job {
     console.log(`Creating job for ${this.notification.label}`);
     return schedule.scheduleJob(this.getSchedule(), () => {
-      if (!this.notification.activeOnHolidays && this.isHolidayToday()) return;
-      Message.findAll({ where: { notificationId: this.id } })
-        .then((ms: Message[]) => {
-          if (ms.length) {
-            console.log(ms[Math.floor(Math.random() * ms.length)].message);
-          } else {
-            console.log(`No messages found for ${this.notification.label}`);
-          }
-        })
-        .catch((err: any) => console.error(err));
+      if (this.notification.activeOnHolidays) {
+        this.sendMessage();
+      } else {
+        this.isNotHolidayToday()
+          .then(() => {
+            this.sendMessage();
+          })
+          .catch((err: any) => console.error(err));
+      }
     });
   }
 
@@ -47,8 +47,28 @@ export class ScheduledNotification {
   }
 
   // TODO fix when I add holidays
-  private isHolidayToday(): boolean {
-    return false;
+  private isNotHolidayToday() {
+    return new Promise((res, rej) => {
+      Holiday.findOne({ where: { date: new Date().toISOString() } })
+        .then((n: Holiday) => {
+          console.log(n);
+          if (n === null) res();
+          else rej();
+        })
+        .catch((err: any) => rej(err));
+    });
+  }
+
+  private sendMessage() {
+    Message.findAll({ where: { notificationId: this.id } })
+      .then((ms: Message[]) => {
+        if (ms.length) {
+          console.log(ms[Math.floor(Math.random() * ms.length)].message);
+        } else {
+          console.log(`No messages found for ${this.notification.label}`);
+        }
+      })
+      .catch((err: any) => console.error(err));
   }
 
   // TODO make this

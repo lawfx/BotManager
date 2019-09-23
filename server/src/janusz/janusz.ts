@@ -125,6 +125,12 @@ export class Janusz extends DiscordBot {
             res.sendStatus(500);
           });
       });
+
+    this.router
+      .route('/holidays')
+      .get((req, res) => {})
+      .put((req, res) => {})
+      .delete((req, res) => {});
   }
 
   private setupNotifications() {
