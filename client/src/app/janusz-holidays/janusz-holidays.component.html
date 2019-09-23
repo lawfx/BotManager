@@ -1,0 +1,12 @@
+<button mat-raised-button class="mb-4" color="primary" (click)="picker.open()">
+  Add holiday
+</button>
+<mat-form-field [hidden]="true">
+  <input
+    matInput
+    [min]="minDate"
+    [matDatepicker]="picker"
+    (dateChange)="addHoliday($event)"
+  />
+  <mat-datepicker touchUi #picker></mat-datepicker>
+</mat-form-field>

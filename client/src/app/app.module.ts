@@ -15,6 +15,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material';
 
 import { ToastrModule } from 'ngx-toastr';
 
@@ -29,6 +31,7 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
 import { JanuszNotificationsComponent } from './janusz-notifications/janusz-notifications.component';
 import { JanuszNotificationDialogComponent } from './janusz-notification-dialog/janusz-notification-dialog.component';
 import { JanuszMessageDialogComponent } from './janusz-message-dialog/janusz-message-dialog.component';
+import { JanuszHolidaysComponent } from './janusz-holidays/janusz-holidays.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +43,8 @@ import { JanuszMessageDialogComponent } from './janusz-message-dialog/janusz-mes
     ConfirmationDialogComponent,
     JanuszNotificationsComponent,
     JanuszNotificationDialogComponent,
-    JanuszMessageDialogComponent
+    JanuszMessageDialogComponent,
+    JanuszHolidaysComponent
   ],
   imports: [
     BrowserModule,
@@ -59,6 +63,8 @@ import { JanuszMessageDialogComponent } from './janusz-message-dialog/janusz-mes
     MatTooltipModule,
     MatIconModule,
     MatPaginatorModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
     ToastrModule.forRoot({
       timeOut: 3000
     })

@@ -3,7 +3,7 @@
     <app-bot-info botName="janusz"></app-bot-info>
   </div>
   <div class="pt-4">
-    <mat-tab-group mat-align-tabs="center">
+    <mat-tab-group dynamicHeight mat-align-tabs="center">
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon class="tab-icon">notifications</mat-icon>
@@ -19,7 +19,9 @@
           <mat-icon class="tab-icon">event_available</mat-icon>
           Holidays
         </ng-template>
-        Content 2
+        <div class="pt-4">
+          <app-janusz-holidays></app-janusz-holidays>
+        </div>
       </mat-tab>
     </mat-tab-group>
   </div>
