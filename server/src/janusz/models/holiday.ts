@@ -3,7 +3,7 @@ import { sequelize } from '../../database';
 
 class Holiday extends Model {
   id!: number; // Note that the `null assertion` `!` is required in strict mode.
-  date!: Date;
+  date!: string;
 }
 
 Holiday.init(

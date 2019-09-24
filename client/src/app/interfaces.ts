@@ -47,10 +47,5 @@ export interface ConfirmationDialogData {
 
 export interface Holiday {
   id?: number;
-  date: Date;
-}
-
-export interface HolidayString {
-  id?: number;
   date: string;
 }

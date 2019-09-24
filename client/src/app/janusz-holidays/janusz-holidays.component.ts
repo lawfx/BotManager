@@ -3,12 +3,10 @@ import {
   MatDatepickerInputEvent,
   MatDatepicker
 } from '@angular/material/datepicker';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
 
 import { JanuszService } from '../janusz.service';
 import { ToastrService } from 'ngx-toastr';
-import { Holiday, HolidayString } from '../interfaces';
+import { Holiday } from '../interfaces';
 
 @Component({
   selector: 'app-janusz-holidays',
@@ -16,15 +14,14 @@ import { Holiday, HolidayString } from '../interfaces';
   styleUrls: ['./janusz-holidays.component.css']
 })
 export class JanuszHolidaysComponent implements OnInit {
-  @ViewChild('picker', { static: true }) picker: MatDatepicker<Date>;
-  // @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild('picker', { static: false }) picker: MatDatepicker<Date>;
 
   minDate = this.getCurrentDate();
 
   loaded = false;
 
-  holidays = new MatTableDataSource<HolidayString>();
-  holidayColumns: string[] = ['holiday', 'actions'];
+  holidays: Holiday[] = [];
+  holidayColumns: string[] = ['date', 'actions'];
 
   constructor(
     private januszService: JanuszService,
@@ -33,20 +30,22 @@ export class JanuszHolidaysComponent implements OnInit {
 
   ngOnInit() {
     this.getHolidays();
-    // console.log(this.sort);
   }
 
   getHolidays() {
     this.januszService.getHolidays().subscribe({
       next: (hs: Holiday[]) => {
-        this.holidays = new MatTableDataSource<HolidayString>(
-          hs.map(h => {
-            return { id: h.id, date: this.dateToReadableHoliday(h.date) };
+        this.holidays = hs
+          .sort((a, b) => {
+            return this.compareHoliday(a, b);
           })
-        );
+          .map(h => {
+            return {
+              id: h.id,
+              date: this.dateToReadableHoliday(h.date)
+            };
+          });
         setTimeout(() => (this.loaded = true), 500);
-        // console.log(this.sort);
-        // this.holidays.sort = this.sort;
       },
       error: err => {
         console.error(err);
@@ -60,7 +59,7 @@ export class JanuszHolidaysComponent implements OnInit {
     if (event.value !== null) {
       const holiday = event.value;
       holiday.setUTCDate(holiday.getUTCDate() + 1);
-      this.januszService.addHoliday({ date: holiday }).subscribe({
+      this.januszService.addHoliday({ date: holiday.toString() }).subscribe({
         next: () => {
           this.toastr.success('Holiday added');
           this.getHolidays();
@@ -75,6 +74,7 @@ export class JanuszHolidaysComponent implements OnInit {
   }
 
   onDeleteHoliday(id: number) {
+    // TODO add confirmation
     this.januszService.deleteHoliday(id).subscribe({
       next: () => {
         this.toastr.success('Holiday deleted');
@@ -93,11 +93,36 @@ export class JanuszHolidaysComponent implements OnInit {
     return date;
   }
 
-  dateToReadableHoliday(holidayDateString: Date) {
+  dateToReadableHoliday(holidayDateString: string) {
     const holidayDate = new Date(holidayDateString);
     const year = holidayDate.getUTCFullYear();
-    const month = holidayDate.getUTCMonth();
-    const date = holidayDate.getUTCDate();
+    const month =
+      holidayDate.getUTCMonth().toString().length === 1
+        ? '0' + (holidayDate.getUTCMonth() + 1)
+        : holidayDate.getUTCMonth() + 1;
+    const date =
+      holidayDate.getUTCDate().toString().length === 1
+        ? '0' + holidayDate.getUTCDate()
+        : holidayDate.getUTCDate();
     return `${date}/${month}/${year}`;
+  }
+
+  compareHoliday(a: Holiday, b: Holiday): number {
+    const aFullDate = new Date(a.date);
+    const aYear = aFullDate.getUTCFullYear();
+    const aMonth = aFullDate.getUTCMonth();
+    const aDate = aFullDate.getUTCDate();
+    const bFullDate = new Date(b.date);
+    const bYear = bFullDate.getUTCFullYear();
+    const bMonth = bFullDate.getUTCMonth();
+    const bDate = bFullDate.getUTCDate();
+    if (
+      aYear < bYear ||
+      (aYear === bYear && aMonth < bMonth) ||
+      (aYear === bYear && aMonth === bMonth && aDate < bDate)
+    ) {
+      return -1;
+    }
+    return 1;
   }
 }
