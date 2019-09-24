@@ -46,6 +46,8 @@ export class JanuszNotificationsComponent implements OnInit {
     this.messages.paginator = pm;
   }
 
+  loaded = false;
+
   notificationColumns: string[] = [
     'label',
     'creator',
@@ -85,10 +87,12 @@ export class JanuszNotificationsComponent implements OnInit {
     this.januszService.getNotifications().subscribe({
       next: (ns: Notification[]) => {
         this.notifications = new MatTableDataSource<Notification>(ns);
+        setTimeout(() => (this.loaded = true), 500);
       },
       error: err => {
         console.error(err);
         this.toastr.error('Notifications fetch failed');
+        setTimeout(() => (this.loaded = true), 500);
       }
     });
   }

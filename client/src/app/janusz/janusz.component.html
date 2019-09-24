@@ -3,7 +3,11 @@
     <app-bot-info botName="janusz"></app-bot-info>
   </div>
   <div class="pt-4">
-    <mat-tab-group dynamicHeight mat-align-tabs="center">
+    <mat-tab-group
+      animationDuration="500"
+      dynamicHeight
+      mat-align-tabs="center"
+    >
       <mat-tab #notificationsTab="matTab">
         <ng-template mat-tab-label>
           <mat-icon class="tab-icon">notifications</mat-icon>

@@ -18,6 +18,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
 import { MatSortModule } from '@angular/material/sort';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { ToastrModule } from 'ngx-toastr';
 
@@ -67,6 +68,7 @@ import { JanuszHolidaysComponent } from './janusz-holidays/janusz-holidays.compo
     MatNativeDateModule,
     MatDatepickerModule,
     MatSortModule,
+    MatProgressSpinnerModule,
     ToastrModule.forRoot({
       timeOut: 3000
     })

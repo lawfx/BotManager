@@ -21,6 +21,8 @@ export class JanuszHolidaysComponent implements OnInit {
 
   minDate = this.getCurrentDate();
 
+  loaded = false;
+
   holidays = new MatTableDataSource<HolidayString>();
   holidayColumns: string[] = ['holiday', 'actions'];
 
@@ -42,12 +44,14 @@ export class JanuszHolidaysComponent implements OnInit {
             return { id: h.id, date: this.dateToReadableHoliday(h.date) };
           })
         );
+        setTimeout(() => (this.loaded = true), 500);
         // console.log(this.sort);
         // this.holidays.sort = this.sort;
       },
       error: err => {
         console.error(err);
         this.toastr.error('Holidays fetch failed');
+        setTimeout(() => (this.loaded = true), 500);
       }
     });
   }
