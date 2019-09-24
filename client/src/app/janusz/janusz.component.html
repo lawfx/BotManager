@@ -4,22 +4,22 @@
   </div>
   <div class="pt-4">
     <mat-tab-group dynamicHeight mat-align-tabs="center">
-      <mat-tab>
+      <mat-tab #notificationsTab="matTab">
         <ng-template mat-tab-label>
           <mat-icon class="tab-icon">notifications</mat-icon>
           Notifications
         </ng-template>
-        <div class="pt-4">
+        <div class="py-4" *ngIf="notificationsTab.isActive">
           <app-janusz-notifications></app-janusz-notifications>
         </div>
       </mat-tab>
 
-      <mat-tab>
+      <mat-tab #holidaysTab="matTab">
         <ng-template mat-tab-label>
           <mat-icon class="tab-icon">event_available</mat-icon>
           Holidays
         </ng-template>
-        <div class="pt-4">
+        <div class="py-4" *ngIf="holidaysTab.isActive">
           <app-janusz-holidays></app-janusz-holidays>
         </div>
       </mat-tab>

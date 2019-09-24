@@ -166,7 +166,7 @@ export class JanuszNotificationsComponent implements OnInit {
             },
             error: err => {
               console.error(err);
-              this.toastr.error('Notification delete failed');
+              this.toastr.error('Notification deletion failed');
             }
           });
         }

@@ -3,6 +3,12 @@ import {
   MatDatepickerInputEvent,
   MatDatepicker
 } from '@angular/material/datepicker';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+
+import { JanuszService } from '../janusz.service';
+import { ToastrService } from 'ngx-toastr';
+import { Holiday, HolidayString } from '../interfaces';
 
 @Component({
   selector: 'app-janusz-holidays',
@@ -11,21 +17,83 @@ import {
 })
 export class JanuszHolidaysComponent implements OnInit {
   @ViewChild('picker', { static: true }) picker: MatDatepicker<Date>;
+  // @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   minDate = this.getCurrentDate();
 
-  constructor() {}
+  holidays = new MatTableDataSource<HolidayString>();
+  holidayColumns: string[] = ['holiday', 'actions'];
 
-  ngOnInit() {}
+  constructor(
+    private januszService: JanuszService,
+    private toastr: ToastrService
+  ) {}
 
-  addHoliday(event: MatDatepickerInputEvent<Date>) {
-    // TODO add holiday to db
-    this.picker.select(undefined);
+  ngOnInit() {
+    this.getHolidays();
+    // console.log(this.sort);
   }
 
-  getCurrentDate() {
-    const currentDate = new Date();
-    currentDate.setHours(0, 0, 0, 0);
-    return currentDate;
+  getHolidays() {
+    this.januszService.getHolidays().subscribe({
+      next: (hs: Holiday[]) => {
+        this.holidays = new MatTableDataSource<HolidayString>(
+          hs.map(h => {
+            return { id: h.id, date: this.dateToReadableHoliday(h.date) };
+          })
+        );
+        // console.log(this.sort);
+        // this.holidays.sort = this.sort;
+      },
+      error: err => {
+        console.error(err);
+        this.toastr.error('Holidays fetch failed');
+      }
+    });
+  }
+
+  onAddHoliday(event: MatDatepickerInputEvent<Date>) {
+    if (event.value !== null) {
+      const holiday = event.value;
+      holiday.setUTCDate(holiday.getUTCDate() + 1);
+      this.januszService.addHoliday({ date: holiday }).subscribe({
+        next: () => {
+          this.toastr.success('Holiday added');
+          this.getHolidays();
+        },
+        error: err => {
+          console.error(err);
+          this.toastr.error('Holiday addition failed');
+        }
+      });
+      this.picker.select(undefined);
+    }
+  }
+
+  onDeleteHoliday(id: number) {
+    this.januszService.deleteHoliday(id).subscribe({
+      next: () => {
+        this.toastr.success('Holiday deleted');
+        this.getHolidays();
+      },
+      error: err => {
+        console.error(err);
+        this.toastr.error('Holiday deletion failed');
+      }
+    });
+  }
+
+  getCurrentDate(): Date {
+    const date = new Date();
+    date.setUTCHours(0, 0, 0, 0);
+    return date;
+  }
+
+  dateToReadableHoliday(holidayDateString: Date) {
+    const holidayDate = new Date(holidayDateString);
+    const year = holidayDate.getUTCFullYear();
+    const month = holidayDate.getUTCMonth();
+    const date = holidayDate.getUTCDate();
+    return `${date}/${month}/${year}`;
   }
 }

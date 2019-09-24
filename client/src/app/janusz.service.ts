@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Notification, Message } from './interfaces';
+import { Notification, Message, Holiday } from './interfaces';
 
 @Injectable({
   providedIn: 'root'
 })
 export class JanuszService {
   constructor(private httpClient: HttpClient) {}
+
+  /** Notifications */
 
   getNotifications() {
     return this.httpClient.get('/janusz/notifications');
@@ -29,6 +31,8 @@ export class JanuszService {
     return this.httpClient.delete(`/janusz/notifications/${notificationId}`);
   }
 
+  /** Messages */
+
   getMessages(notificationId: number) {
     return this.httpClient.get(
       `/janusz/notifications/${notificationId}/messages`
@@ -45,5 +49,19 @@ export class JanuszService {
 
   deleteMessage(messageId: number) {
     return this.httpClient.delete(`/janusz/messages/${messageId}`);
+  }
+
+  /** Holidays */
+
+  getHolidays() {
+    return this.httpClient.get('/janusz/holidays');
+  }
+
+  addHoliday(holiday: Holiday) {
+    return this.httpClient.put('/janusz/holidays', { holiday });
+  }
+
+  deleteHoliday(id: number) {
+    return this.httpClient.delete(`/janusz/holidays/${id}`);
   }
 }

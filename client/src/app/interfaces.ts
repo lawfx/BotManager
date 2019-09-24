@@ -44,3 +44,13 @@ export interface ConfirmationDialogData {
   confirmButton: string;
   cancelButton: string;
 }
+
+export interface Holiday {
+  id?: number;
+  date: Date;
+}
+
+export interface HolidayString {
+  id?: number;
+  date: string;
+}
